@@ -44,6 +44,7 @@ Usage under construction
 ## Resources
 
 - [Half-duplex UNIX pipes](https://tldp.org/LDP/lpg/node9.html#SECTION00720000000000000000)
+- [Understanding pipes in UNIX](https://medium.com/swlh/understanding-pipes-in-unix-with-a-sample-implementation-9fe110d36412)
 
 ## Authors
 
