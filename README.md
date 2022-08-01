@@ -41,6 +41,10 @@ Bonus features under construction.
 
 Usage under construction
 
+## Resources
+
+- [Half-duplex UNIX pipes](https://tldp.org/LDP/lpg/node9.html#SECTION00720000000000000000)
+
 ## Authors
 
 - [@ogonzi](https://www.github.com/ogonzi)
