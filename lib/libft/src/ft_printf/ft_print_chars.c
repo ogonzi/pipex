@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 12:27:35 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/05/27 13:12:58 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/01 13:17:33 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	ft_print_char(va_list ap, char c, t_flags *flags)
 {
 	if (c == 'c')
-		ft_putchar_fd((unsigned char)va_arg(ap, int), 1, flags);
+		ft_putchar_mod_fd((unsigned char)va_arg(ap, int), 1, flags);
 	else if (c == '%')
-		ft_putchar_fd('%', 1, flags);
+		ft_putchar_mod_fd('%', 1, flags);
 	return (1);
 }
 
@@ -31,6 +31,6 @@ int	ft_print_string(va_list ap, t_flags *flags)
 	if (!str)
 		len = ft_print_null(flags);
 	else
-		ft_putstr_fd(str, 1, flags, &len);
+		ft_putstr_mod_fd(str, 1, flags, &len);
 	return (len);
 }

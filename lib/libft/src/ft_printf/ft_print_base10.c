@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 16:22:53 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/05/27 13:13:30 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/01 13:17:05 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	ft_print_base10_int(va_list ap, t_flags *flags)
 	n = va_arg(ap, int);
 	printed_len = 0;
 	if (flags->plus && n >= 0)
-		ft_putstr_fd("+", 1, flags, &printed_len);
+		ft_putstr_mod_fd("+", 1, flags, &printed_len);
 	else if (flags->space && n >= 0)
-		ft_putstr_fd(" ", 1, flags, &printed_len);
-	ft_putnbr_fd(n, 1, flags, &printed_len);
+		ft_putstr_mod_fd(" ", 1, flags, &printed_len);
+	ft_putnbr_mod_fd(n, 1, flags, &printed_len);
 	return (printed_len);
 }
 
