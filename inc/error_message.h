@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:53 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/04 12:30:44 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:35:28 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@
 # define ERR_PIPE	"Error creating pipe"
 # define ERR_FORK	"Error forking process"
 # define ERR_MEM	"Error allocating memory"
+# define ERR_EXEC	"Error executing command"
 
 #endif
