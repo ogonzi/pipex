@@ -46,6 +46,10 @@ Usage under construction
 - [Half-duplex UNIX pipes](https://tldp.org/LDP/lpg/node9.html#SECTION00720000000000000000)
 - [Understanding pipes in UNIX](https://medium.com/swlh/understanding-pipes-in-unix-with-a-sample-implementation-9fe110d36412)
 
+## Known bugs
+
+- Outfile is not cleaned from one execution to the next, and appends output
+
 ## Authors
 
 - [@ogonzi](https://www.github.com/ogonzi)

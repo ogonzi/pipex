@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/04 15:50:51 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/04 16:30:10 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,48 @@ void	ft_read_infile(int fd[3][2], char *infile_path)
 	close(fd[0][1]);
 }
 
+void	ft_fill_arg_vec(char cmd[10], char *arg_vec[4], char *argv)
+{
+	arg_vec[0] = cmd;
+	arg_vec[1] = "-c";
+	arg_vec[2] = argv;
+	arg_vec[3] = NULL;
+}
+
+void	ft_close_fd(int fd[3][2], int pipe_num)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	printf("Closing...\n");
+	while (i < 3)
+	{
+		j = 0;
+		while (j < 2)
+		{
+			if ((i == pipe_num && j == 0) || (i == pipe_num + 1 && j == 1))
+				;
+			else
+			{
+				printf("Closing fd[%d][%d]\n", i, j);
+				close(fd[i][j]);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 int	main(int argc, char *argv[])
 {
 	int		fd[3][2];
 	int		pid[2];
 	int		i;
+	char	cmd[10];
+	char	*arg_vec[4];
 
+	ft_strlcpy(cmd, "/bin/bash", 10);
 	if (argc != 5)
 		terminate(ERR_ARGS);
 	i = 0;
@@ -111,18 +147,13 @@ int	main(int argc, char *argv[])
 		terminate(ERR_FORK);
 	if (pid[0] == 0)
 	{
-		close(fd[0][1]);
-		close(fd[1][0]);
-		close(fd[2][0]);
-		close(fd[2][1]);
+		ft_close_fd(fd, 0);
 		dup2(fd[0][0], STDIN_FILENO);
 		close(fd[0][0]);
 		dup2(fd[1][1], STDOUT_FILENO);
 		close(fd[1][1]);
-		char cmd[] = "/bin/bash";
-		char *arg_vec[] = {cmd, "-c", argv[2], NULL};
-		char *env_vec[] = {NULL};
-		if (execve(cmd, arg_vec, env_vec) == -1)
+		ft_fill_arg_vec(cmd, arg_vec, argv[2]);
+		if (execve(cmd, arg_vec, NULL) == -1)
 			terminate(ERR_EXEC);
 		return (0);
 	}
@@ -131,21 +162,22 @@ int	main(int argc, char *argv[])
 		terminate(ERR_FORK);
 	if (pid[1] == 0)
 	{
+		ft_close_fd(fd, 1);
+		/*
 		close(fd[0][0]);
 		close(fd[0][1]);
 		close(fd[1][1]);
 		close(fd[2][0]);
+		*/
 		dup2(fd[1][0], STDIN_FILENO);
 		close(fd[1][0]);
-		fd[2][1] = open(argv[4], O_WRONLY | O_CREAT, 0777);
+		fd[2][1] = open(argv[4], O_WRONLY | O_CREAT);
 		if (fd[2][1] < 0)
 			terminate(ERR_OPEN);
 	   	dup2(fd[2][1], STDOUT_FILENO);	
 		close(fd[2][1]);
-		char cmd[] = "/bin/bash";
-		char *arg_vec[] = {cmd, "-c", argv[3], NULL};
-		char *env_vec[] = {NULL};
-		if (execve(cmd, arg_vec, env_vec) == -1)
+		ft_fill_arg_vec(cmd, arg_vec, argv[3]);
+		if (execve(cmd, arg_vec, NULL) == -1)
 			terminate(ERR_EXEC);
 		return (0);
 	}
