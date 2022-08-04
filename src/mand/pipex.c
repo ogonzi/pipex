@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/04 16:54:21 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/04 17:00:19 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@
 // Use O_WRONLY | O_CREATE flags to redirect standard output to outfile.
 // Default file descriptors: 0 --> STDIN | 1 --> STDOUT | 2 --> STDERR
 // fd2 = dup(fd) [duplicates file descriptor] 
-// dup2(fd, STDOUT_FILENO) [Close STDOUT, and then open the file pointed to by fd]
+// dup2(fd, STDOUT_FILENO) [Close STDOUT, and then open the file pointed to
+// by fd]
 // close fd after using dup2
-// To send a string to a parent process, use write(fd[1], sizeof(char) * str, strlen(str) + 1)
+// To send a string to a parent process, use write(fd[1], sizeof(char) * str,
+// strlen(str) + 1)
 // Also, int n = strlen(str) + 1; and write(fd[1], &n, sizeof(int)); 
-// In the parent process, read(fd[0], &n, sizeof(int)); and read(fd[0], str, sizeof(char) * n)
+// In the parent process, read(fd[0], &n, sizeof(int)); and read(fd[0], str,
+// sizeof(char) * n)
 
 void	ft_read_line(char **line, int fd)
 {
@@ -120,7 +123,8 @@ void	ft_close_fd(int fd[3][2], int pipe_num)
 	}
 }
 
-void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num, char *outfile_path)
+void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num,
+			char *outfile_path)
 {
 	char	cmd[10];
 	char	*arg_vec[4];

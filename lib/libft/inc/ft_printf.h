@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:05:43 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/01 13:20:01 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/04 16:59:03 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void			ft_putunbr_base(unsigned long int nbr, char *base,
 
 /* ft_put.c */
 void			ft_putchar_mod_fd(char c, int fd, t_flags *flags);
-void			ft_putstr_mod_fd(char *s, int fd, t_flags *flags, int *printed_len);
-void			ft_putnbr_mod_fd(int n, int fd, t_flags *flags, int *printed_len);
+void			ft_putstr_mod_fd(char *s, int fd, t_flags *flags,
+					int *printed_len);
+void			ft_putnbr_mod_fd(int n, int fd, t_flags *flags,
+					int *printed_len);
 #endif
