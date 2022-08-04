@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/04 16:30:10 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/04 16:54:21 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	ft_close_fd(int fd[3][2], int pipe_num)
 	int	j;
 
 	i = 0;
-	printf("Closing...\n");
 	while (i < 3)
 	{
 		j = 0;
@@ -114,14 +113,32 @@ void	ft_close_fd(int fd[3][2], int pipe_num)
 			if ((i == pipe_num && j == 0) || (i == pipe_num + 1 && j == 1))
 				;
 			else
-			{
-				printf("Closing fd[%d][%d]\n", i, j);
 				close(fd[i][j]);
-			}
 			j++;
 		}
 		i++;
 	}
+}
+
+void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num, char *outfile_path)
+{
+	char	cmd[10];
+	char	*arg_vec[4];
+
+	ft_strlcpy(cmd, "/bin/bash", 10);
+	dup2(fd[pipe_num][0], STDIN_FILENO);
+	close(fd[pipe_num][0]);
+	if (outfile_path)
+	{
+		fd[pipe_num + 1][1] = open(outfile_path, O_WRONLY | O_CREAT, 0777);
+		if (fd[pipe_num + 1][1] < 0)
+			terminate(ERR_OPEN);
+	}
+	dup2(fd[pipe_num + 1][1], STDOUT_FILENO);
+	close(fd[pipe_num + 1][1]);
+	ft_fill_arg_vec(cmd, arg_vec, command);
+	if (execve(cmd, arg_vec, NULL) == -1)
+		terminate(ERR_EXEC);
 }
 
 int	main(int argc, char *argv[])
@@ -129,10 +146,7 @@ int	main(int argc, char *argv[])
 	int		fd[3][2];
 	int		pid[2];
 	int		i;
-	char	cmd[10];
-	char	*arg_vec[4];
 
-	ft_strlcpy(cmd, "/bin/bash", 10);
 	if (argc != 5)
 		terminate(ERR_ARGS);
 	i = 0;
@@ -142,49 +156,24 @@ int	main(int argc, char *argv[])
 			terminate(ERR_PIPE);
 		i++;
 	}
-	pid[0] = fork();
-	if (pid[0] < 0)
-		terminate(ERR_FORK);
-	if (pid[0] == 0)
+	i = 0;
+	while (i < 2)
 	{
-		ft_close_fd(fd, 0);
-		dup2(fd[0][0], STDIN_FILENO);
-		close(fd[0][0]);
-		dup2(fd[1][1], STDOUT_FILENO);
-		close(fd[1][1]);
-		ft_fill_arg_vec(cmd, arg_vec, argv[2]);
-		if (execve(cmd, arg_vec, NULL) == -1)
-			terminate(ERR_EXEC);
-		return (0);
+		pid[i] = fork();
+		if (pid[i] < 0)
+			terminate(ERR_FORK);
+		if (pid[i] == 0)
+		{
+			ft_close_fd(fd, i);
+			if (i != 1)
+				ft_redirect_pipes(fd, argv[i + 2], i, 0);
+			else
+				ft_redirect_pipes(fd, argv[i + 2], i, argv[i + 3]);
+			return (0);
+		}
+		i++;
 	}
-	pid[1] = fork();
-	if (pid[1] < 0)
-		terminate(ERR_FORK);
-	if (pid[1] == 0)
-	{
-		ft_close_fd(fd, 1);
-		/*
-		close(fd[0][0]);
-		close(fd[0][1]);
-		close(fd[1][1]);
-		close(fd[2][0]);
-		*/
-		dup2(fd[1][0], STDIN_FILENO);
-		close(fd[1][0]);
-		fd[2][1] = open(argv[4], O_WRONLY | O_CREAT);
-		if (fd[2][1] < 0)
-			terminate(ERR_OPEN);
-	   	dup2(fd[2][1], STDOUT_FILENO);	
-		close(fd[2][1]);
-		ft_fill_arg_vec(cmd, arg_vec, argv[3]);
-		if (execve(cmd, arg_vec, NULL) == -1)
-			terminate(ERR_EXEC);
-		return (0);
-	}
-	close(fd[0][0]);
-	close(fd[1][0]);
-	close(fd[1][1]);
-	close(fd[2][1]);
+	ft_close_fd(fd, 2);
 	ft_read_infile(fd, argv[1]);
 	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], NULL, 0);
