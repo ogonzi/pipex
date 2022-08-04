@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/04 17:00:19 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/04 18:06:13 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num,
 	close(fd[pipe_num][0]);
 	if (outfile_path)
 	{
-		fd[pipe_num + 1][1] = open(outfile_path, O_WRONLY | O_CREAT, 0777);
+		fd[pipe_num + 1][1] = open(outfile_path, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 		if (fd[pipe_num + 1][1] < 0)
 			terminate(ERR_OPEN);
 	}
