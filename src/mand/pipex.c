@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/04 18:20:48 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/05 10:30:16 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,24 @@ void	ft_read_infile(int fd[3][2], char *infile_path)
 	int		size;
 	char	*infile_str;
 	char	*line;
+	int		fd_read;
 
 	close(fd[2][0]);
 	ft_get_size(&size, infile_path);
 	ft_allocate_memory(&infile_str, size);
-	fd[0][1] = open(infile_path, O_RDONLY);
-	ft_read_line(&line, fd[0][1]);
+	ft_bzero(infile_str, size);
+	fd_read = open(infile_path, O_RDONLY);
+	ft_read_line(&line, fd_read);
 	while (line)
 	{
 		ft_strlcat(infile_str, line, size);
 		free(line);
-		line = get_next_line(fd[0][1]);
+		line = get_next_line(fd_read);
 	}
+
 	infile_str[size - 1] = '\0';
-	write(fd[0][1], infile_str, size);
+	if (write(fd[0][1], infile_str, size) < 0)
+		terminate(ERR_WRITE);
 	dup2(fd[0][1], STDOUT_FILENO);
 	close(fd[0][1]);
 }
@@ -113,10 +117,13 @@ void	ft_close_fd(int fd[3][2], int pipe_num)
 		j = 0;
 		while (j < 2)
 		{
-			if ((i == pipe_num && j == 0) || (i == pipe_num + 1 && j == 1))
+			if ((i == pipe_num && j == 0) || (i == (pipe_num + 1) % 3 && j == 1))
 				;
 			else
+			{
+				printf("closing fd[%d][%d]\n", i, j);
 				close(fd[i][j]);
+			}
 			j++;
 		}
 		i++;
@@ -130,7 +137,13 @@ void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num,
 	char	*arg_vec[4];
 
 	ft_strlcpy(cmd, "/bin/bash", 10);
+	char	*read_str;
+	read_str = malloc(100);
+	if (read(fd[pipe_num][0], read_str, 100) < 0)
+		terminate(ERR_READ);
+	printf("%s\n\n", read_str);
 	dup2(fd[pipe_num][0], STDIN_FILENO);
+	printf("closing fd[%d][1]\n", pipe_num);
 	close(fd[pipe_num][0]);
 	if (outfile_path)
 	{
@@ -139,6 +152,7 @@ void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num,
 			terminate(ERR_OPEN);
 	}
 	dup2(fd[pipe_num + 1][1], STDOUT_FILENO);
+	printf("closing fd[%d][1]\n", pipe_num + 1);
 	close(fd[pipe_num + 1][1]);
 	ft_fill_arg_vec(cmd, arg_vec, command);
 	if (execve(cmd, arg_vec, NULL) == -1)
