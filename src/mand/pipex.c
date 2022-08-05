@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/05 10:30:16 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/05 11:45:06 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_fill_arg_vec(char cmd[10], char *arg_vec[4], char *argv)
 	arg_vec[2] = argv;
 	arg_vec[3] = NULL;
 }
-
+/*
 void	ft_close_fd(int fd[3][2], int pipe_num)
 {
 	int	i;
@@ -121,7 +121,7 @@ void	ft_close_fd(int fd[3][2], int pipe_num)
 				;
 			else
 			{
-				printf("closing fd[%d][%d]\n", i, j);
+				printf("[pipe_num = %d] closing fd[%d][%d]\n", pipe_num, i, j);
 				close(fd[i][j]);
 			}
 			j++;
@@ -129,7 +129,7 @@ void	ft_close_fd(int fd[3][2], int pipe_num)
 		i++;
 	}
 }
-
+*/
 void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num,
 			char *outfile_path)
 {
@@ -142,8 +142,8 @@ void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num,
 	if (read(fd[pipe_num][0], read_str, 100) < 0)
 		terminate(ERR_READ);
 	printf("%s\n\n", read_str);
+	printf("closing fd[%d][0]\n", pipe_num);
 	dup2(fd[pipe_num][0], STDIN_FILENO);
-	printf("closing fd[%d][1]\n", pipe_num);
 	close(fd[pipe_num][0]);
 	if (outfile_path)
 	{
@@ -151,8 +151,8 @@ void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num,
 		if (fd[pipe_num + 1][1] < 0)
 			terminate(ERR_OPEN);
 	}
-	dup2(fd[pipe_num + 1][1], STDOUT_FILENO);
 	printf("closing fd[%d][1]\n", pipe_num + 1);
+	dup2(fd[pipe_num + 1][1], STDOUT_FILENO);
 	close(fd[pipe_num + 1][1]);
 	ft_fill_arg_vec(cmd, arg_vec, command);
 	if (execve(cmd, arg_vec, NULL) == -1)
@@ -182,7 +182,21 @@ int	main(int argc, char *argv[])
 			terminate(ERR_FORK);
 		if (pid[i] == 0)
 		{
-			ft_close_fd(fd, i);
+			//ft_close_fd(fd, i);
+			if (i == 0)
+			{
+				close(fd[0][1]);
+				close(fd[1][0]);
+				close(fd[2][0]);
+				close(fd[2][1]);
+			}
+			if (i == 1)
+			{
+				close(fd[0][0]);
+				close(fd[0][1]);
+				close(fd[1][1]);
+				close(fd[2][0]);
+			}
 			if (i != 1)
 				ft_redirect_pipes(fd, argv[i + 2], i, 0);
 			else
@@ -191,8 +205,14 @@ int	main(int argc, char *argv[])
 		}
 		i++;
 	}
-	ft_close_fd(fd, 2);
+	//ft_close_fd(fd, 2);
+	close(fd[0][0]);
+	close(fd[1][0]);
+	close(fd[1][1]);
+	close(fd[2][1]);
+	printf("To read infile...\n");
 	ft_read_infile(fd, argv[1]);
+	printf("Waiting...\n");
 	waitpid(pid[0], NULL, 0);
 	waitpid(pid[1], NULL, 0);
 	return (0);
