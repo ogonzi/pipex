@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/07 15:01:03 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/07 16:33:25 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	terminate(char *s)
 		ft_putendl_fd(s, 2);
 	else
 		perror(s);
-	exit(0);
+	exit(errno);
 }
 
 void	ft_fill_arg_vec(char cmd[10], char *arg_vec[4], char *argv)

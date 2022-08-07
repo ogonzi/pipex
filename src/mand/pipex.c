@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/07 13:54:20 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/07 18:19:44 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <sys/wait.h>
+#include <sys/errno.h>
 
 // Remember to treat errors for fork, read, write, etc.
 // Add wait to end of parent process (use while loop if there are multiple
@@ -49,7 +50,7 @@ void	ft_create_pipes(int fd[3][2])
 	}
 }
 
-void	ft_redirect_pipes(int fd[3][2], char *argv[], int pipe_num)
+void	ft_redirect_pipes(int fd[3][2], char *argv[], int pipe_num, char **env)
 {
 	char	cmd[10];
 	char	*arg_vec[4];
@@ -67,11 +68,11 @@ void	ft_redirect_pipes(int fd[3][2], char *argv[], int pipe_num)
 	dup2(fd[pipe_num + 1][1], STDOUT_FILENO);
 	close(fd[pipe_num + 1][1]);
 	ft_fill_arg_vec(cmd, arg_vec, argv[pipe_num + 2]);
-	if (execve(cmd, arg_vec, NULL) == -1)
+	if (execve(cmd, arg_vec, env) == -1)
 		terminate(ERR_EXEC);
 }
 
-void	ft_loop_child_processes(int fd[3][2], char *argv[])
+void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env)
 {
 	int	pid[2];
 	int	i;
@@ -85,7 +86,7 @@ void	ft_loop_child_processes(int fd[3][2], char *argv[])
 		if (pid[i] == 0)
 		{
 			ft_close_fd(fd, i);
-			ft_redirect_pipes(fd, argv, i);
+			ft_redirect_pipes(fd, argv, i, env);
 			exit(0);
 		}
 		i++;
@@ -95,6 +96,8 @@ void	ft_loop_child_processes(int fd[3][2], char *argv[])
 void	ft_parent_process(int fd[3][2], char *infile_str)
 {
 	int	i;
+	int	wstatus;
+	int	status_code;
 
 	ft_close_fd(fd, 2);
 	close(fd[2][0]);
@@ -106,19 +109,27 @@ void	ft_parent_process(int fd[3][2], char *infile_str)
 	close(1);
 	i = -1;
 	while (++i < 2)
-		wait(NULL);
+	{
+		wait(&wstatus);
+		if (WIFEXITED(wstatus) && ft_strlen(infile_str))
+		{
+			status_code = WEXITSTATUS(wstatus);
+			if (status_code != 0)
+				exit(status_code);
+		}
+	}
 }
 
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[], char **env)
 {
 	char	*infile_str;
 	int		fd[3][2];
 
 	if (argc != 5)
 		terminate(ERR_ARGS);
-	ft_read_file(argv[1], &infile_str);
+	ft_read_file(argv, &infile_str);
 	ft_create_pipes(fd);
-	ft_loop_child_processes(fd, argv);
+	ft_loop_child_processes(fd, argv, env);
 	ft_parent_process(fd, infile_str);
 	return (0);
 }
