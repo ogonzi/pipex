@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 09:17:51 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/07 18:34:27 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/07 18:55:41 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_get_size(int *size, char *argv[])
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		terminate(ERR_OPEN);
-	ft_read_line(&line, fd);
+	line = get_next_line(fd);
 	while (line)
 	{
 		*size += (int)ft_strlen(line);
