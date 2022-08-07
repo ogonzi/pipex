@@ -6,7 +6,7 @@
 #    By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 10:00:13 by ogonzale          #+#    #+#              #
-#    Updated: 2022/08/07 09:33:10 by ogonzale         ###   ########.fr        #
+#    Updated: 2022/08/07 14:46:01 by ogonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,7 +99,7 @@ fclean:	clean
 re:	fclean all
 	@echo "$(GREEN)Cleaned and rebuilt everything for Pipex.$(DEF_COLOR)"
 
-bonus:	$(BNAME)
+#bonus:	$(BNAME)
 
 $(BNAME):	$(BOBJ) $(LIBFT)
 	@$(CC) $(CFLAGS) $(BOBJ) $(LIBFT) -o $(BNAME)
