@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 09:17:51 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/07 09:39:48 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/07 13:07:00 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ void	ft_read_file(char *path, char **str)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	str[size] = '\0';
+	str[size] = "\0";
 }
