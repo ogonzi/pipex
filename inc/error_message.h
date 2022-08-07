@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:53 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/05 09:27:39 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/07 10:24:40 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@
 # define ERR_FORK	"Error forking process"
 # define ERR_MEM	"Error allocating memory"
 # define ERR_EXEC	"Error executing command"
+# define ERR_DUP	"Error creating copy of file descriptor" 
 
 #endif

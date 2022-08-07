@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/07 09:37:00 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/07 11:07:08 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,100 @@ void	ft_redirect_pipes(int fd[3][2], char *command, int pipe_num)
 		terminate(ERR_EXEC);
 }
 */
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[], char **env)
 {
 	char	*infile_str;
+	int		pid1;
+	int		pid2;
+	int		fd[3][2];
+	int		i;
 
 	if (argc != 5)
 		terminate(ERR_ARGS);
 	ft_read_file(argv[1], &infile_str);
-	printf("%s", infile_str);
+	i = 0;
+	while (i < 3)
+	{
+		if (pipe(fd[i]) < 0)
+			terminate(ERR_PIPE);
+		i++;
+	}
+	pid1 = fork();
+	if (pid1 < 0)
+		terminate(ERR_FORK);
+	if (pid1 == 0)
+	{
+		char	cmd[10];
+		char	*arg_vec[4];
+
+		ft_strlcpy(cmd, "/bin/bash", 10);
+		close(fd[0][1]);
+		close(fd[1][0]);
+		close(fd[2][0]);
+		close(fd[2][1]);
+		if (dup2(fd[0][0], STDIN_FILENO) < 0)
+			terminate(ERR_DUP);
+		close(fd[0][0]);
+		if (dup2(fd[1][1], STDOUT_FILENO) < 0)
+			terminate(ERR_DUP);
+		close(fd[1][1]);
+		ft_fill_arg_vec(cmd, arg_vec, argv[2]);
+		if (execve(cmd, arg_vec, env) < 0)
+			terminate(ERR_EXEC);
+		return (0);
+	}
+	pid2 = fork();
+	if (pid2 < 0)
+		terminate(ERR_FORK);
+	if (pid2 == 0)
+	{
+		close(fd[0][0]);
+		close(fd[0][1]);
+		close(fd[1][1]);
+		close(fd[2][0]);
+		close(fd[2][1]);
+		
+		char	*res_str;
+
+		res_str = malloc(100);
+		if (read(fd[1][0], res_str, 100) < 0)
+			terminate(ERR_READ);
+		ft_printf("%s", res_str);
+		free(res_str);
+		close(fd[1][0]);
+		/*
+		ft_read_file(fd[1][0], &res_str);
+		close(fd[1][0]);
+		fd[2][1] = open(argv[4], O_WRONLY | O_TRUNC | O_CREAT, 0777);
+		if (fd[2][1] < 0)
+			terminate(ERR_OPEN);
+		if (dup2(fd[2][1], STDOUT_FILENO) < 0)
+			terminate(ERR_DUP);
+		close(fd[2][1]);
+		ft_printf("%s", res_str);
+		*/
+		return (0);
+	}
+	close(fd[0][0]);
+	close(fd[1][0]);
+	close(fd[1][1]);
+	close(fd[2][0]);
+	close(fd[2][1]);
+	/*
+	size = sizeof(char) * ft_strlen(infile_str);
+	if (write(fd[0][1], &size, sizeof(int)) < 0)
+		terminate(ERR_WRITE);
+	if (write(fd[0][1], infile_str, size) < 0)
+		terminate(ERR_WRITE);
+	*/
+	if (dup2(fd[0][1], STDOUT_FILENO) < 0)
+		terminate(ERR_DUP);
+	close(fd[0][1]);
+	ft_printf("%s", infile_str);
+	free(infile_str);
+	//close(0);
+	close(1);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
 	return (0);
 }
