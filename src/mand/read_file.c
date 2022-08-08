@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 09:17:51 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/07 18:55:41 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/08 10:53:01 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "get_next_line.h"
 #include "libft.h"
 #include "ft_printf.h"
-#include <sys/errno.h>
 
 void	ft_read_line(char **line, int fd)
 {

@@ -6,13 +6,12 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/07 16:33:25 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/08 11:00:36 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "error_message.h"
-#include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
 
@@ -31,11 +30,17 @@ void	terminate(char *s)
 	exit(errno);
 }
 
-void	ft_fill_arg_vec(char cmd[10], char *arg_vec[4], char *argv)
+/*
+ * From man bash:
+ * If the -c option is present, then commands are read from the first non-option
+ * argument
+ */
+
+void	ft_fill_arg_vec(char cmd[10], char *arg_vec[4], char *command)
 {
 	arg_vec[0] = cmd;
 	arg_vec[1] = "-c";
-	arg_vec[2] = argv;
+	arg_vec[2] = command;
 	arg_vec[3] = NULL;
 }
 
