@@ -31,10 +31,9 @@ This project is about handling pipes, more specifically, it is about simulating 
 
 ### Mandatory
 
-- Handles 4 arguments, input and output files (first and last), and two commands (middle). 
-- Behaves exactly as the shell command:
+- Handles 4 arguments, input and output files (first and last), and two commands (middle). Behaves like:
 ```shell
-$> < file 1 cmd1 | cmd2 > file2 
+< file 1 cmd1 | cmd2 > file2 
 ```
 
 ### Bonus
