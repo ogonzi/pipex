@@ -33,14 +33,14 @@ This project is about handling pipes, more specifically, it is about simulating 
 
 - Handles 4 arguments, input and output files (first and last), and two commands (middle). Behaves like:
 ```shell
-< file 1 cmd1 | cmd2 > file2 
+< file1 cmd1 | cmd2 > file2 
 ```
 
 ### Bonus
 
 - Handles multiple pipes. Behaves like:
 ```shell
-< file 1 cmd1 | cmd2 | cmd3 ... | cmdn > file2 
+< file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2 
 ```
 - Supports << and >> when the first parameter is "here\_doc". Behaves like:
 ```shell
