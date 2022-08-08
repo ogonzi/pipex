@@ -25,17 +25,28 @@
 
 ## About
 
-About section under construction.
+This project is about handling pipes, more specifically, it is about simulating the pipe "|" operator in C. Through this project multiple concepts about UNIX processes in C are learnt as an introduction to concurrent programming.
 
 ## Features
 
 ### Mandatory
 
-Mandatory features under construction.
+- Handles 4 arguments, input and output files (first and last), and two commands (middle). 
+- Behaves exactly as the shell command:
+```shell
+$> < file 1 cmd1 | cmd2 > file2 
+```
 
 ### Bonus
 
-Bonus features under construction.
+- Handles multiple pipes. Behaves like:
+```shell
+< file 1 cmd1 | cmd2 | cmd3 ... | cmdn > file2 
+```
+- Supports << and >> when the first parameter is "here\_doc". Behaves like:
+```shell
+cmd << LIMITER | cmd1 >> file 
+```
 
 ## Usage
 
