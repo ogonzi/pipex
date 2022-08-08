@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/07 19:34:09 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/08 09:54:31 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	ft_parent_process(int fd[3][2], char *infile_str)
 	close(fd[0][1]);
 	ft_printf("%s", infile_str);
 	free(infile_str);
-	close(1);
+	close(STDOUT_FILENO);
 	i = -1;
 	while (++i < 2)
 	{
