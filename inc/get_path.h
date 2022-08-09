@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_file.h                                        :+:      :+:    :+:   */
+/*   get_path.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/07 09:33:37 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/07 18:25:37 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/08/09 16:02:59 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/08/09 17:15:11 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READ_FILE_H
-# define READ_FILE_H
+#ifndef GET_PATH_H
+# define GET_PATH_H
 
-void	ft_read_file(char *argv[], char **str);
+void	ft_get_command(char **cmd, char **opt, char *argv_cmd, char *env[]);
 
 #endif

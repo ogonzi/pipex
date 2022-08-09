@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/09 12:29:36 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/09 18:10:18 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	terminate(char *s)
  * argument
  */
 
-void	ft_fill_arg_vec(char cmd[10], char *arg_vec[4], char *command)
+void	ft_fill_arg_vec(char *cmd, char *arg_vec[4], char *options)
 {
 	arg_vec[0] = cmd;
-	arg_vec[1] = "-c";
-	arg_vec[2] = command;
+	arg_vec[1] = cmd;
+	arg_vec[2] = options;
 	arg_vec[3] = NULL;
 }
 

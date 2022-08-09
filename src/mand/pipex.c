@@ -6,14 +6,14 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/09 15:02:36 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/09 18:10:59 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "error_message.h"
+#include "get_path.h"
 #include "utils.h"
-#include "read_file.h"
 #include "libft.h"
 #include <unistd.h>
 #include <sys/wait.h>
@@ -46,10 +46,11 @@ void	ft_create_pipes(int fd[3][2])
 
 void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
 {
-	char	cmd[10];
 	char	*arg_vec[4];
+	char	*cmd;
+	char	*opt;
 
-	ft_strlcpy(cmd, "/bin/bash", 10);
+	//ft_strlcpy(cmd, "/bin/bash", 10);
 	if (pid_i == 0)
 	{
 		fd[pid_i][0] = open(argv[1], O_RDONLY);
@@ -67,7 +68,8 @@ void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
 	}
 	dup2(fd[pid_i + 1][1], STDOUT_FILENO);
 	close(fd[pid_i + 1][1]);
-	ft_fill_arg_vec(cmd, arg_vec, argv[pid_i + 2]);
+	ft_get_command(&cmd, &opt, argv[pid_i + 2], env);
+	ft_fill_arg_vec(cmd, arg_vec, opt);
 	if (execve(cmd, arg_vec, env) == -1)
 		terminate(ERR_EXEC);
 }
