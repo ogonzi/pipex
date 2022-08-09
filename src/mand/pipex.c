@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/08 11:01:56 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/09 11:59:56 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,8 @@ void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env)
 
 void	ft_parent_process(int fd[3][2], char *infile_str)
 {
-	int	i;
-	int	wstatus;
-	int	status_code;
-	int	empty_flag;
+	int				i;
+	t_child_status	child;
 
 	ft_close_fd(fd, 2);
 	close(fd[2][0]);
@@ -116,20 +114,20 @@ void	ft_parent_process(int fd[3][2], char *infile_str)
 		terminate(ERR_DUP);
 	close(fd[0][1]);
 	ft_printf("%s", infile_str);
-	empty_flag = 0;
+	child.empty_flag = 0;
 	if (ft_strlen(infile_str) == 0)
-		empty_flag = 1;
+		child.empty_flag = 1;
 	free(infile_str);
 	close(STDOUT_FILENO);
 	i = -1;
 	while (++i < 2)
 	{
-		wait(&wstatus);
-		if (WIFEXITED(wstatus) && empty_flag == 0)
+		wait(&child.wstatus);
+		if (WIFEXITED(child.wstatus) && child.empty_flag == 0)
 		{
-			status_code = WEXITSTATUS(wstatus);
-			if (status_code != 0 && i == 1)
-				exit(status_code);
+			child.status_code = WEXITSTATUS(child.wstatus);
+			if (child.status_code != 0 && i == 1)
+				exit(child.status_code);
 		}
 	}
 }
