@@ -6,14 +6,13 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/08 11:00:36 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/09 12:29:36 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "error_message.h"
 #include <stdio.h>
-#include <errno.h>
 
 /*
  * If there is no error code given by errno, add error message to stdout 2.
@@ -23,11 +22,8 @@
 
 void	terminate(char *s)
 {
-	if (errno == 0)
-		ft_putendl_fd(s, 2);
-	else
-		perror(s);
-	exit(errno);
+	perror(s);
+	exit(EXIT_FAILURE);
 }
 
 /*

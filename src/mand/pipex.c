@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/09 11:59:56 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/09 12:37:07 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env)
 		{
 			ft_close_fd(fd, i);
 			ft_redirect_pipes(fd, argv, i, env);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 		i++;
 	}
