@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/09 14:32:49 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/09 15:02:36 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,12 @@ void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
 	char	*arg_vec[4];
 
 	ft_strlcpy(cmd, "/bin/bash", 10);
+	if (pid_i == 0)
+	{
+		fd[pid_i][0] = open(argv[1], O_RDONLY);
+		if (fd[pid_i][0] < 0)
+			terminate(ERR_READ);
+	}
 	dup2(fd[pid_i][0], STDIN_FILENO);
 	close(fd[pid_i][0]);
 	if (pid_i == 1)
@@ -107,7 +113,7 @@ void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env,
  * in the child, the appropiate message and return value are commited.
  */
 
-void	ft_parent_process(int fd[3][2], char *infile_str, int last_pid)
+void	ft_parent_process(int fd[3][2], int last_pid)
 {
 	int				i;
 	t_child_status	child;
@@ -117,17 +123,11 @@ void	ft_parent_process(int fd[3][2], char *infile_str, int last_pid)
 	if (dup2(fd[0][1], STDOUT_FILENO) < 0)
 		terminate(ERR_DUP);
 	close(fd[0][1]);
-	ft_printf("%s", infile_str);
-	child.empty_flag = 0;
-	if (ft_strlen(infile_str) == 0)
-		child.empty_flag = 1;
-	free(infile_str);
-	close(STDOUT_FILENO);
 	i = -1;
 	while (++i < 2)
 	{
 		child.pid = wait(&child.wstatus);
-		if (WIFEXITED(child.wstatus) && child.empty_flag == 0)
+		if (WIFEXITED(child.wstatus))
 		{
 			child.status_code = WEXITSTATUS(child.wstatus);
 			if (child.status_code != 0 && child.pid == last_pid)
@@ -147,15 +147,13 @@ void	ft_parent_process(int fd[3][2], char *infile_str, int last_pid)
 
 int	main(int argc, char *argv[], char **env)
 {
-	char	*infile_str;
 	int		fd[3][2];
 	int		last_pid;
 
 	if (argc != 5)
 		terminate(ERR_ARGS);
-	ft_read_file(argv, &infile_str);
 	ft_create_pipes(fd);
 	ft_loop_child_processes(fd, argv, env, &last_pid);
-	ft_parent_process(fd, infile_str, last_pid);
+	ft_parent_process(fd, last_pid);
 	return (0);
 }
