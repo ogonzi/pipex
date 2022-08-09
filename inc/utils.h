@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:52:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/09 11:58:28 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/09 14:32:35 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef struct s_child_status
 	int	wstatus;
 	int	status_code;
 	int	empty_flag;
+	int	pid;
 }		t_child_status;
 
 void	terminate(char *s);

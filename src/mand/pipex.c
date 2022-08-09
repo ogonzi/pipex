@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/09 12:37:07 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/09 14:32:49 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 void	ft_create_pipes(int fd[3][2])
 {
@@ -72,7 +73,8 @@ void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
  * called to kill that process.
  */
 
-void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env)
+void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env,
+			int *last_pid)
 {
 	int	pid[2];
 	int	i;
@@ -89,6 +91,8 @@ void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env)
 			ft_redirect_pipes(fd, argv, i, env);
 			exit(EXIT_SUCCESS);
 		}
+		else if (i == 1 && pid[i] > 0)
+				*last_pid = pid[i];
 		i++;
 	}
 }
@@ -103,7 +107,7 @@ void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env)
  * in the child, the appropiate message and return value are commited.
  */
 
-void	ft_parent_process(int fd[3][2], char *infile_str)
+void	ft_parent_process(int fd[3][2], char *infile_str, int last_pid)
 {
 	int				i;
 	t_child_status	child;
@@ -122,11 +126,11 @@ void	ft_parent_process(int fd[3][2], char *infile_str)
 	i = -1;
 	while (++i < 2)
 	{
-		wait(&child.wstatus);
+		child.pid = wait(&child.wstatus);
 		if (WIFEXITED(child.wstatus) && child.empty_flag == 0)
 		{
 			child.status_code = WEXITSTATUS(child.wstatus);
-			if (child.status_code != 0 && i == 1)
+			if (child.status_code != 0 && child.pid == last_pid)
 				exit(child.status_code);
 		}
 	}
@@ -145,12 +149,13 @@ int	main(int argc, char *argv[], char **env)
 {
 	char	*infile_str;
 	int		fd[3][2];
+	int		last_pid;
 
 	if (argc != 5)
 		terminate(ERR_ARGS);
 	ft_read_file(argv, &infile_str);
 	ft_create_pipes(fd);
-	ft_loop_child_processes(fd, argv, env);
-	ft_parent_process(fd, infile_str);
+	ft_loop_child_processes(fd, argv, env, &last_pid);
+	ft_parent_process(fd, infile_str, last_pid);
 	return (0);
 }
