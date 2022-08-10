@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/10 12:13:35 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/10 18:15:26 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,33 @@ void	terminate(char *s)
 	exit(EXIT_FAILURE);
 }
 
-/*
- * From man bash:
- * If the -c option is present, then commands are read from the first non-option
- * argument
- */
+int	ft_get_num_options(char *options)
+{
+	int	i;
+	int	num_options;
+
+	num_options = 0;
+	i = 0;
+	while (options[i] != '\0')
+	{
+		if (!ft_isspace(options[i]) && (ft_isspace(options[i - 1]) || i == 0))
+		{
+			if (options[i] == '\"')
+			{
+				i++;
+				while (options[i] != '\"')
+				{
+					if (options[i] == '\0')
+						terminate(ERR_QUOTES);
+					i++;
+				}
+			}
+			num_options++;
+		}
+		i++;
+	}
+	return (num_options);
+}
 
 void	ft_fill_arg_vec(char *cmd, char *arg_vec[3], char *options)
 {

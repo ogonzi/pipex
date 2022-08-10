@@ -6,11 +6,12 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/10 17:10:09 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/10 18:01:45 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "utils.h"
 #include <stdio.h>
 
 void	ft_get_paths(char ***paths, char *env[])
@@ -74,4 +75,14 @@ void	ft_get_command(char **cmd, char **options, char *argv_cmd, char *env[])
 		*cmd = NULL;
 		i++;
 	}
+}
+
+void	ft_fill_args_cmd(char *cmd, char *options, char ***args_cmd)
+{
+	int	num_options;
+
+	num_options = ft_get_num_options(options);
+	fprintf(stderr, "num_options = %d\n", num_options);
+	fprintf(stderr, "cmd = %s\n", cmd);
+	(void)args_cmd;
 }

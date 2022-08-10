@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/10 12:13:57 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/10 18:19:57 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
 	char	*arg_vec[3];
 	char	*cmd;
 	char	*opt;
+	char	**args_cmd;
 
 	//ft_strlcpy(cmd, "/bin/bash", 10);
 	if (pid_i == 0)
@@ -69,6 +70,7 @@ void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
 	dup2(fd[pid_i + 1][1], STDOUT_FILENO);
 	close(fd[pid_i + 1][1]);
 	ft_get_command(&cmd, &opt, argv[pid_i + 2], env);
+	ft_fill_args_cmd(cmd, opt, &args_cmd);
 	ft_fill_arg_vec(cmd, arg_vec, opt);
 	fprintf(stderr, "cmd = %s | opt = %s\n", cmd, opt);
 	if (execve(cmd, arg_vec, env) == -1)
