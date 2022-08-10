@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/09 18:10:18 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/10 12:13:35 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ void	terminate(char *s)
  * argument
  */
 
-void	ft_fill_arg_vec(char *cmd, char *arg_vec[4], char *options)
+void	ft_fill_arg_vec(char *cmd, char *arg_vec[3], char *options)
 {
 	arg_vec[0] = cmd;
-	arg_vec[1] = cmd;
-	arg_vec[2] = options;
-	arg_vec[3] = NULL;
+	arg_vec[1] = options;
+	arg_vec[2] = NULL;
 }
 
 void	ft_close_fd(int fd[3][2], int pipe_num)
