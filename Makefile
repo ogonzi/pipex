@@ -6,7 +6,7 @@
 #    By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 10:00:13 by ogonzale          #+#    #+#              #
-#    Updated: 2022/08/09 16:02:11 by ogonzale         ###   ########.fr        #
+#    Updated: 2022/08/10 11:47:21 by ogonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ HEADER 		= -I$(INC) -I$(LIBFT_DIR)$(INC)
 SRC_DIR 	:= src/
 OBJ_DIR 	:= obj/
 CC 			:= cc
-CFLAGS 		:= -Wall -Wextra -Werror -g
+CFLAGS 		:= -Wall -Wextra -Werror -g3
 FSANITIZE	:= -fsanitize=address -g3
 RM 			:= rm -f
 ECHO		:= echo -e
