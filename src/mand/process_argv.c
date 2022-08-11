@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path.c                                         :+:      :+:    :+:   */
+/*   process_argv.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/10 18:01:45 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/11 10:48:51 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "utils.h"
+#include "split.h"
 #include <stdio.h>
 
 void	ft_get_paths(char ***paths, char *env[])
@@ -33,56 +34,25 @@ void	ft_get_paths(char ***paths, char *env[])
 	}
 }
 
-void	ft_split_argv(char **command, char **options, char *argv_cmd)
-{
-	int	i;
-
-	i = 0;
-	while (i < (int)ft_strlen(argv_cmd))
-	{
-		if (argv_cmd[i] == ' ')
-		{
-			*command = ft_substr(argv_cmd, 0, i);
-			*options = ft_substr(argv_cmd, i + 1, ft_strlen(argv_cmd) - i);
-			break ;
-		}
-		i++;
-	}
-
-}
-
-void	ft_get_command(char **cmd, char **options, char *argv_cmd, char *env[])
+void	ft_process_argv(char *argv, char ***argv_split, char **command,
+			char *env[])
 {
 	char	**paths;
-	char	*path_with_bar;
-	char	*command;
+	char	*full_path;
 	int		i;
 
 	ft_get_paths(&paths, env);
-	ft_split_argv(&command, options, argv_cmd);
+	*argv_split = ft_split(argv, ' ');
+	ft_split_mod(argv, " \t\n");
 	i = 0;
 	while (paths[i] != NULL)
 	{
-		path_with_bar = ft_strjoin(paths[i], "/");
-		if (*options != NULL)
-			*cmd = ft_strjoin(path_with_bar, command);
-		else
-			*cmd = ft_strjoin(path_with_bar, argv_cmd);
-		free(path_with_bar);
-		if (access(*cmd, X_OK) == 0)
+		full_path = ft_strjoin(paths[i], "/");
+		*command = ft_strjoin(full_path, *argv_split[0]);
+		free(full_path);
+		if (access(*command, X_OK) == 0)
 			break ;
-		free(*cmd);
-		*cmd = NULL;
+		free(*command);
 		i++;
 	}
-}
-
-void	ft_fill_args_cmd(char *cmd, char *options, char ***args_cmd)
-{
-	int	num_options;
-
-	num_options = ft_get_num_options(options);
-	fprintf(stderr, "num_options = %d\n", num_options);
-	fprintf(stderr, "cmd = %s\n", cmd);
-	(void)args_cmd;
 }

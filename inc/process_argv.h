@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path.h                                         :+:      :+:    :+:   */
+/*   process_argv.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:02:59 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/10 17:52:25 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/11 09:35:50 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_PATH_H
-# define GET_PATH_H
+#ifndef PROCESS_ARGV_H
+# define PROCESS_ARGV_H
 
-void	ft_get_command(char **cmd, char **opt, char *argv_cmd, char *env[]);
-void    ft_fill_args_cmd(char *cmd, char *options, char ***args_cmd);
+void	ft_process_argv(char *argv, char ***argv_split, char **command,
+			char *env[]);
+
 #endif
