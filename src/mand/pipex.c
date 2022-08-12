@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 19:23:46 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 19:48:11 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
  * called to kill that process.
  */
 
-void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env,
-			int *last_pid)
+void	ft_loop_child_processes(int fd[3][2], t_sys system, int *last_pid)
 {
 	int	pid[2];
 	int	i;
@@ -93,11 +92,11 @@ void	ft_loop_child_processes(int fd[3][2], char *argv[], char **env,
 		if (pid[i] == 0)
 		{
 			ft_close_fd(fd, i);
-			ft_redirect_pipes(fd, argv, i, env);
+			ft_redirect_pipes(fd, system.argv, i, system.env);
 			exit(EXIT_SUCCESS);
 		}
 		else if (i == 1 && pid[i] > 0)
-				*last_pid = pid[i];
+			*last_pid = pid[i];
 		i++;
 	}
 }
@@ -144,15 +143,18 @@ void	ft_parent_process(int fd[3][2], int last_pid)
  * The outfile is always created.
  */
 
-int	main(int argc, char *argv[], char **env)
+int	main(int argc, char **argv, char **env)
 {
 	int		fd[3][2];
 	int		last_pid;
+	t_sys	system;
 
+	system.argv = argv;
+	system.env = env;
 	if (argc != 5)
 		terminate(ERR_ARGS);
 	ft_create_pipes(fd);
-	ft_loop_child_processes(fd, argv, env, &last_pid);
+	ft_loop_child_processes(fd, system, &last_pid);
 	ft_parent_process(fd, last_pid);
 	return (0);
 }
