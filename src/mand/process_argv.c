@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 11:02:32 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 11:36:29 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,6 @@ void	ft_process_argv(char *argv, char ***argv_split, char **command,
 
 	ft_get_paths(&paths, env);
 	*argv_split = ft_split_mod(argv, " \t\n");
-	int	j = 0;
-	while (*argv_split[j])
-	{
-		fprintf(stderr, "%s\n", *argv_split[j]);
-		j++;
-	}
 	i = 0;
 	while (paths[i] != NULL)
 	{

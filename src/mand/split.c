@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 10:00:14 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 10:57:45 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:06:38 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,9 @@ void	ft_get_splits(char **str_split, const char *str, const char *sep)
 		if (i > old_i)
 		{
 			if (str[old_i] == '\'' || str[old_i] == '\"')
-			{
-				old_i++;
-				i--;
-			}
-			str_split[j] = ft_substr(str, old_i, i - old_i);
+				str_split[j] = ft_substr(str, old_i + 1, i - old_i - 2);
+			else
+				str_split[j] = ft_substr(str, old_i, i - old_i);
 			if (!str_split[j])
 				terminate(ERR_MEM);
 			j++;
