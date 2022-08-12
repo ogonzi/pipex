@@ -6,13 +6,14 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 12:27:49 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:43:47 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "error_message.h"
 #include <stdio.h>
+#include <errno.h>
 
 /*
  * If there is no error code given by errno, add error message to stdout 2.
