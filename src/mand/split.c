@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 10:00:14 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 12:06:38 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:18:45 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,26 @@ void	ft_skip_quoted(const char *str, int *i, char c)
 	}
 }
 
+void	ft_split_logic(const char *str, const char *sep, int *i, int *old_i)
+{
+	while (str[*i] != '\0')
+	{
+		if (ft_strchr(sep, str[*i]) == NULL)
+			break ;
+		(*i)++;
+	}
+	*old_i = *i;
+	while (str[*i] != '\0')
+	{
+		ft_skip_quoted(str, i, '\'');
+		ft_skip_quoted(str, i, '\"');
+		if (ft_strchr(sep, str[*i]) != NULL)
+			break ;
+		(*i)++;
+	}
+}
+
+
 void	ft_get_count(const char *str, const char *sep, int *count)
 {
 	int	i;
@@ -39,21 +59,7 @@ void	ft_get_count(const char *str, const char *sep, int *count)
 	*count = 0;
 	while (str[i] != '\0')
 	{
-		while (str[i] != '\0')
-		{
-			if (ft_strchr(sep, str[i]) == NULL)
-				break ;
-			i++;
-		}
-		old_i = i;
-		while (str[i] != '\0')
-		{
-			ft_skip_quoted(str, &i, '\'');
-			ft_skip_quoted(str, &i, '\"');
-			if (ft_strchr(sep, str[i]) != NULL)
-				break ;
-			i++;
-		}
+		ft_split_logic(str, sep, &i, &old_i);
 		if (i > old_i)
 			(*count)++;
 	}
@@ -69,21 +75,7 @@ void	ft_get_splits(char **str_split, const char *str, const char *sep)
 	j = 0;
 	while (str[i] != '\0')
 	{
-		while (str[i] != '\0')
-		{
-			if (ft_strchr(sep, str[i]) == NULL)
-				break ;
-			i++;
-		}
-		old_i = i;
-		while (str[i] != '\0')
-		{
-			ft_skip_quoted(str, &i, '\'');
-			ft_skip_quoted(str, &i, '\"');
-			if (ft_strchr(sep, str[i]) != NULL)
-				break ;
-			i++;
-		}
+		ft_split_logic(str, sep, &i, &old_i);
 		if (i > old_i)
 		{
 			if (str[old_i] == '\'' || str[old_i] == '\"')
@@ -108,5 +100,5 @@ char	**ft_split_mod(const char *str, const char *sep)
 	if (!str_split)
 		terminate(ERR_MEM);
 	ft_get_splits(str_split, str, sep);
-	return(str_split);
+	return (str_split);
 }
