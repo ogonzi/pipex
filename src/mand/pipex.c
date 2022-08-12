@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 19:48:11 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 20:05:09 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,30 +44,28 @@ void	ft_create_pipes(int fd[3][2])
  * and then execve will write to this file with the corresponding dup2 of STDOUT.
  */
 
-void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
+void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd cmd, int pid_i)
 {
-	char	**argv_split;
-	char	*command;
-
 	if (pid_i == 0)
 	{
-		fd[pid_i][0] = open(argv[1], O_RDONLY);
+		fd[pid_i][0] = open(system.argv[1], O_RDONLY);
 		if (fd[pid_i][0] < 0)
-			terminate(argv[1]);
+			terminate(system.argv[1]);
 	}
 	dup2(fd[pid_i][0], STDIN_FILENO);
 	close(fd[pid_i][0]);
 	if (pid_i == 1)
 	{
-		fd[pid_i + 1][1] = open(argv[pid_i + 3],
+		fd[pid_i + 1][1] = open(system.argv[pid_i + 3],
 				O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd[pid_i + 1][1] < 0)
 			terminate(ERR_OPEN);
 	}
 	dup2(fd[pid_i + 1][1], STDOUT_FILENO);
 	close(fd[pid_i + 1][1]);
-	ft_process_argv(argv[pid_i + 2], &argv_split, &command, env);
-	if (execve(command, argv_split, env) == -1)
+	ft_process_argv(system.argv[pid_i + 2], &cmd.split_args, &cmd.exec_command,
+		system.env);
+	if (execve(cmd.exec_command, cmd.split_args, system.env) == -1)
 		terminate(ERR_EXEC);
 }
 
@@ -78,7 +76,8 @@ void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
  * called to kill that process.
  */
 
-void	ft_loop_child_processes(int fd[3][2], t_sys system, int *last_pid)
+void	ft_loop_child_processes(int fd[3][2], t_sys system, t_cmd cmd,
+			int *last_pid)
 {
 	int	pid[2];
 	int	i;
@@ -92,7 +91,7 @@ void	ft_loop_child_processes(int fd[3][2], t_sys system, int *last_pid)
 		if (pid[i] == 0)
 		{
 			ft_close_fd(fd, i);
-			ft_redirect_pipes(fd, system.argv, i, system.env);
+			ft_redirect_pipes(fd, system, cmd, i);
 			exit(EXIT_SUCCESS);
 		}
 		else if (i == 1 && pid[i] > 0)
@@ -148,13 +147,14 @@ int	main(int argc, char **argv, char **env)
 	int		fd[3][2];
 	int		last_pid;
 	t_sys	system;
+	t_cmd	cmd;
 
 	system.argv = argv;
 	system.env = env;
 	if (argc != 5)
 		terminate(ERR_ARGS);
 	ft_create_pipes(fd);
-	ft_loop_child_processes(fd, system, &last_pid);
+	ft_loop_child_processes(fd, system, cmd, &last_pid);
 	ft_parent_process(fd, last_pid);
 	return (0);
 }

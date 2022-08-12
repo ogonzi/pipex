@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:52:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 19:47:19 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 20:04:20 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ typedef struct s_sys
 	char	**argv;
 	char	**env;
 }				t_sys;
+
+typedef struct s_cmd
+{
+	char	**split_args;
+	char	*exec_command;
+}			t_cmd;
 
 void	terminate(char *s);
 int		ft_get_num_options(char *options);
