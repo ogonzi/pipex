@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/11 09:39:48 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 10:37:15 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	ft_redirect_pipes(int fd[3][2], char *argv[], int pid_i, char **env)
 	ft_fill_args_cmd(cmd, opt, &args_cmd);
 	ft_fill_arg_vec(cmd, arg_vec, opt);
 	*/
-	fprintf(stderr, "command = %s\n", command);
 	if (execve(command, argv_split, env) == -1)
 		terminate(ERR_EXEC);
 }
