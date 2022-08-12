@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 11:36:29 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:24:49 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_get_paths(char ***paths, char *env[])
 {
 	int		i;
 	char	*path_line;
-	
+
 	i = 0;
 	while (env[i] != NULL)
 	{

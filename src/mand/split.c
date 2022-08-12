@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 10:00:14 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 12:18:45 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:24:34 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	ft_split_logic(const char *str, const char *sep, int *i, int *old_i)
 	}
 }
 
-
 void	ft_get_count(const char *str, const char *sep, int *count)
 {
 	int	i;
@@ -70,7 +69,7 @@ void	ft_get_splits(char **str_split, const char *str, const char *sep)
 	int	i;
 	int	old_i;
 	int	j;
-	
+
 	i = 0;
 	j = 0;
 	while (str[i] != '\0')
@@ -94,7 +93,7 @@ char	**ft_split_mod(const char *str, const char *sep)
 {
 	int		num_splits;
 	char	**str_split;
-	
+
 	ft_get_count(str, sep, &num_splits);
 	str_split = malloc(sizeof(char *) * (num_splits + 1));
 	if (!str_split)
