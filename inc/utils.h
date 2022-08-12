@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:52:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 20:04:20 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/12 20:21:56 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ typedef struct s_cmd
 }			t_cmd;
 
 void	terminate(char *s);
-int		ft_get_num_options(char *options);
-void	ft_fill_arg_vec(char *cmd, char *arg_vec[3], char *options);
+void	ft_free_twod_memory(char **arr);
 void	ft_close_fd(int fd[3][2], int pipe_num);
 #endif
