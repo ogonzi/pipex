@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 09:56:01 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 10:12:12 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 void	terminate(char *s)
 {
 	perror(s);
-	exit(EXIT_FAILURE);
+	exit(errno);
 }
 
 void	ft_free_twod_memory(char **arr)

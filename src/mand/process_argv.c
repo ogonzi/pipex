@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 09:54:10 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 10:43:54 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,5 @@ void	ft_process_argv(char *argv, char ***argv_split, char **command,
 	*command = ft_strdup(*argv_split[0]);
 	if (ft_check_access(command, paths) == 1)
 		return ;
-	free(*command);
 	ft_free_twod_memory(paths);
-	*command = NULL;
 }
