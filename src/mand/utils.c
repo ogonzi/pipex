@@ -6,12 +6,13 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 12:26:20 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 13:18:59 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "error_message.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -25,6 +26,48 @@
 void	terminate(char *s)
 {
 	perror(s);
+	exit(errno);
+}
+
+void	ft_compose_message(t_error_info *error_info, char *command)
+{
+	error_info->partial_message = ft_strjoin(error_info->shell, ": ");
+	if (!error_info->partial_message)
+		terminate(ERR_MEM);
+	free(error_info->shell);
+	error_info->complete_message = ft_strjoin(error_info->partial_message,
+			command);
+	if (!error_info->complete_message)
+		terminate(ERR_MEM);
+	free(error_info->partial_message);
+	free(command);
+}
+
+void	terminate_with_info(char **env, char *command)
+{
+	t_error_info	error_info;
+	int				i;
+
+	i = 0;
+	error_info.shell = NULL;
+	while (env[i] != NULL)
+	{
+		if (ft_strnstr(env[i], "SHELL", ft_strlen(env[i])) != NULL)
+		{
+			error_info.shell_line = ft_substr(env[i], 6, ft_strlen(env[i]) - 6);
+			if (!error_info.shell_line)
+				terminate(ERR_MEM);
+			error_info.shell = ft_strdup(ft_strrchr(error_info.shell_line, '/')
+					+ sizeof(char));
+			if (!error_info.shell)
+				terminate(ERR_MEM);
+			free(error_info.shell_line);
+			break ;
+		}
+		i++;
+	}
+	ft_compose_message(&error_info, command);
+	perror(error_info.complete_message);
 	exit(errno);
 }
 
