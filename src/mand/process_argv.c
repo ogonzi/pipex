@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 12:24:11 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 16:48:16 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ void	ft_get_paths(char ***paths, char *env[])
 		}
 		i++;
 	}
+}
+
+int	ft_check_access(char **command, char **paths)
+{
+	if (access(*command, X_OK) == 0)
+	{
+		ft_free_twod_memory(paths);
+		return (1);
+	}
+	return (0);
 }
 
 int	ft_check_script(char **command, char *first_arg, char **paths)

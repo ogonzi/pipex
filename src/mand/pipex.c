@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 12:59:52 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 17:50:39 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd cmd, int pid_i)
 	{
 		fd[pid_i][0] = open(system.argv[1], O_RDONLY);
 		if (fd[pid_i][0] < 0)
-			terminate(system.argv[1]);
+			terminate_with_info(system.env, system.argv[1]);
 	}
 	if (dup2(fd[pid_i][0], STDIN_FILENO) == -1)
 		terminate(ERR_DUP);
@@ -61,7 +61,7 @@ void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd cmd, int pid_i)
 		fd[pid_i + 1][1] = open(system.argv[pid_i + 3],
 				O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (fd[pid_i + 1][1] < 0)
-			terminate(ERR_OPEN);
+			terminate_with_info(system.env, system.argv[4]);
 	}
 	if (dup2(fd[pid_i + 1][1], STDOUT_FILENO) == -1)
 		terminate(ERR_DUP);
@@ -158,7 +158,10 @@ int	main(int argc, char **argv, char **env)
 	t_cmd	cmd;
 
 	if (argc != 5)
-		terminate(ERR_ARGS);
+	{
+		ft_putendl_fd(ERR_ARGS, 2);
+		exit(EXIT_FAILURE);
+	}
 	system.argv = argv;
 	system.env = env;
 	ft_create_pipes(fd);

@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 13:18:59 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 17:51:41 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
 
 /*
  * If there is no error code given by errno, add error message to stdout 2.
@@ -26,7 +25,7 @@
 void	terminate(char *s)
 {
 	perror(s);
-	exit(errno);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_compose_message(t_error_info *error_info, char *command)
@@ -40,7 +39,6 @@ void	ft_compose_message(t_error_info *error_info, char *command)
 	if (!error_info->complete_message)
 		terminate(ERR_MEM);
 	free(error_info->partial_message);
-	free(command);
 }
 
 void	terminate_with_info(char **env, char *command)
@@ -68,7 +66,7 @@ void	terminate_with_info(char **env, char *command)
 	}
 	ft_compose_message(&error_info, command);
 	perror(error_info.complete_message);
-	exit(errno);
+	exit(EXIT_FAILURE);
 }
 
 void	ft_free_twod_memory(char **arr)
@@ -82,16 +80,6 @@ void	ft_free_twod_memory(char **arr)
 		i++;
 	}
 	free(arr);
-}
-
-int	ft_check_access(char **command, char **paths)
-{
-	if (access(*command, X_OK) == 0)
-	{
-		ft_free_twod_memory(paths);
-		return (1);
-	}
-	return (0);
 }
 
 void	ft_close_fd(int fd[3][2], int pipe_num)
