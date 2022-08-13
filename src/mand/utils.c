@@ -6,13 +6,14 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 20:21:22 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 09:56:01 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "error_message.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <errno.h>
 
 /*
@@ -38,6 +39,16 @@ void	ft_free_twod_memory(char **arr)
 		i++;
 	}
 	free(arr);
+}
+
+int	ft_check_access(char **command, char **paths)
+{
+	if (access(*command, X_OK) == 0)
+	{
+		ft_free_twod_memory(paths);
+		return (1);
+	}
+	return (0);
 }
 
 void	ft_close_fd(int fd[3][2], int pipe_num)

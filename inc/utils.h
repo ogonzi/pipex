@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:52:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 20:21:56 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 09:54:48 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ typedef struct s_cmd
 
 void	terminate(char *s);
 void	ft_free_twod_memory(char **arr);
+int		ft_check_access(char **command, char **paths);
 void	ft_close_fd(int fd[3][2], int pipe_num);
 #endif
