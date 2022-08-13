@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 10:00:14 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/12 12:24:34 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 12:11:01 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,10 @@ void	ft_get_splits(char **str_split, const char *str, const char *sep)
 			else
 				str_split[j] = ft_substr(str, old_i, i - old_i);
 			if (!str_split[j])
+			{
+				ft_free_twod_memory(str_split);
 				terminate(ERR_MEM);
+			}
 			j++;
 		}
 	}

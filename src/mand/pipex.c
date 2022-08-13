@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 10:18:49 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 12:35:29 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd cmd, int pid_i)
 		if (fd[pid_i][0] < 0)
 			terminate(system.argv[1]);
 	}
-	dup2(fd[pid_i][0], STDIN_FILENO);
-	close(fd[pid_i][0]);
+	if (dup2(fd[pid_i][0], STDIN_FILENO) == -1)
+		terminate(ERR_DUP);
+	if (close(fd[pid_i][0]) == -1)
+		terminate(ERR_CLOSE);
 	if (pid_i == 1)
 	{
 		fd[pid_i + 1][1] = open(system.argv[pid_i + 3],
@@ -61,8 +63,10 @@ void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd cmd, int pid_i)
 		if (fd[pid_i + 1][1] < 0)
 			terminate(ERR_OPEN);
 	}
-	dup2(fd[pid_i + 1][1], STDOUT_FILENO);
-	close(fd[pid_i + 1][1]);
+	if (dup2(fd[pid_i + 1][1], STDOUT_FILENO) == -1)
+		terminate(ERR_DUP);
+	if (close(fd[pid_i + 1][1]) == -1)
+		terminate(ERR_CLOSE);
 	ft_process_argv(system.argv[pid_i + 2], &cmd.split_args, &cmd.exec_command,
 		system.env);
 	if (execve(cmd.exec_command, cmd.split_args, system.env) == -1)
@@ -116,14 +120,18 @@ void	ft_parent_process(int fd[3][2], int last_pid)
 	t_child_status	child;
 
 	ft_close_fd(fd, 2);
-	close(fd[2][0]);
+	if (close(fd[2][0]) == -1)
+		terminate(ERR_CLOSE);
 	if (dup2(fd[0][1], STDOUT_FILENO) < 0)
 		terminate(ERR_DUP);
-	close(fd[0][1]);
+	if (close(fd[0][1]) == -1)
+		terminate(ERR_CLOSE);
 	i = -1;
 	while (++i < 2)
 	{
 		child.pid = wait(&child.wstatus);
+		if (child.pid == -1)
+			terminate(ERR_WAIT);
 		if (WIFEXITED(child.wstatus))
 		{
 			child.status_code = WEXITSTATUS(child.wstatus);
@@ -149,10 +157,10 @@ int	main(int argc, char **argv, char **env)
 	t_sys	system;
 	t_cmd	cmd;
 
-	system.argv = argv;
-	system.env = env;
 	if (argc != 5)
 		terminate(ERR_ARGS);
+	system.argv = argv;
+	system.env = env;
 	ft_create_pipes(fd);
 	ft_loop_child_processes(fd, system, cmd, &last_pid);
 	ft_parent_process(fd, last_pid);

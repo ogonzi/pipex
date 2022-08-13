@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:53 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/10 18:11:10 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 12:36:17 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 # define ERR_FORK	"Error forking process"
 # define ERR_MEM	"Error allocating memory"
 # define ERR_EXEC	"Error executing command"
-# define ERR_DUP	"Error creating copy of file descriptor" 
+# define ERR_DUP	"Error duplicating a file descriptor" 
+# define ERR_CLOSE	"Error closing a file descriptor"
+# define ERR_WAIT	"Error waiting for a process to change state"
 # define ERR_QUOTES	"Opening quotes aren't properly closed"
 
 #endif

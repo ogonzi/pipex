@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 10:12:12 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/08/13 12:26:20 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,15 @@ void	ft_close_fd(int fd[3][2], int pipe_num)
 	while (j < 3)
 	{
 		if (pipe_num != j)
-			close(fd[j][0]);
+		{
+			if (close(fd[j][0]) == -1)
+				terminate(ERR_CLOSE);
+		}
 		if ((pipe_num + 1) % 3 != j)
-			close(fd[j][1]);
+		{
+			if (close(fd[j][1]) == -1)
+				terminate(ERR_CLOSE);
+		}
 		j++;
 	}
 }
