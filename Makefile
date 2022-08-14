@@ -6,7 +6,7 @@
 #    By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 10:00:13 by ogonzale          #+#    #+#              #
-#    Updated: 2022/08/14 09:44:40 by ogonzale         ###   ########.fr        #
+#    Updated: 2022/08/14 10:08:44 by ogonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ all:	$(NAME)
 
 $(NAME):	$(LIBFT) $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
-	@echo "$(GREEN)Pipex compiled!$(DEF_COLOR)"
+	@echo "$(GREEN)$(NAME) compiled!$(DEF_COLOR)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
 	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
@@ -84,7 +84,7 @@ clean:
 	@make clean -sC $(LIBFT_DIR)
 	@echo "$(BLUE)Libft object and dependency files cleaned.$(DEF_COLOR)"
 	@$(RM) $(OBJF)
-	@echo "$(BLUE)Pipex object and dependency files cleaned.$(DEF_COLOR)"
+	@echo "$(BLUE)$(NAME) object and dependency files cleaned.$(DEF_COLOR)"
 
 fclean:	clean
 	@$(RM) $(NAME)
@@ -94,16 +94,16 @@ fclean:	clean
 	@rm -rf *.dSYM
 	@find . -name ".DS_Store" -delete
 	@echo "$(CYAN)Libft executable files cleaned.$(DEF_COLOR)"
-	@echo "$(CYAN)Pipex executable and junk files cleaned.$(DEF_COLOR)"
+	@echo "$(CYAN)$(NAME) executable and junk files cleaned.$(DEF_COLOR)"
 
 re:	fclean all
-	@echo "$(GREEN)Cleaned and rebuilt everything for Pipex.$(DEF_COLOR)"
+	@echo "$(GREEN)Cleaned and rebuilt everything for $(NAME)$(DEF_COLOR)"
 
 #bonus:	$(BNAME)
 
 $(BNAME):	$(BOBJ) $(LIBFT)
 	@$(CC) $(CFLAGS) $(BOBJ) $(LIBFT) -o $(BNAME)
-	@echo "$(GREEN)Pipex bonus compiled!$(DEF_COLOR)"
+	@echo "$(GREEN)$(BNAME) compiled!$(DEF_COLOR)"
 
 rebonus: fclean bonus
 	@echo "$(GREEN)Cleaned and rebuilt bonus.$(DEF_COLOR)"
