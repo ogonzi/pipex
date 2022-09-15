@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/14 09:38:58 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/15 10:51:29 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_create_pipes(int fd[3][2])
  * and then execve will write to this file with the corresponding dup2 of STDOUT.
  */
 
-void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd cmd, int pid_i)
+void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd *cmd, int pid_i)
 {
 	if (pid_i == 0)
 	{
@@ -67,10 +67,10 @@ void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd cmd, int pid_i)
 		terminate(ERR_DUP);
 	if (close(fd[pid_i + 1][1]) == -1)
 		terminate(ERR_CLOSE);
-	ft_process_argv(system.argv[pid_i + 2], &cmd.split_args, &cmd.exec_command,
+	ft_process_argv(system.argv[pid_i + 2], &cmd->split_args, &cmd->exec_command,
 		system.env);
-	if (execve(cmd.exec_command, cmd.split_args, system.env) == -1)
-		terminate_with_info(system.env, cmd.split_args[0]);
+	if (execve(cmd->exec_command, cmd->split_args, system.env) == -1)
+		terminate_with_info(system.env, cmd->split_args[0]);
 }
 
 /*
@@ -80,7 +80,7 @@ void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd cmd, int pid_i)
  * called to kill that process.
  */
 
-void	ft_loop_child_processes(int fd[3][2], t_sys system, t_cmd cmd,
+void	ft_loop_child_processes(int fd[3][2], t_sys system, t_cmd *cmd,
 			int *last_pid)
 {
 	int	pid[2];
@@ -165,7 +165,7 @@ int	main(int argc, char **argv, char **env)
 	system.argv = argv;
 	system.env = env;
 	ft_create_pipes(fd);
-	ft_loop_child_processes(fd, system, cmd, &last_pid);
+	ft_loop_child_processes(fd, system, &cmd, &last_pid);
 	ft_parent_process(fd, last_pid);
 	return (0);
 }
