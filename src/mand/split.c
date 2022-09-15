@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 10:00:14 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/15 15:05:39 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:10:47 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 void	ft_skip_quoted(const char *str, int *i, char c)
 {
-	if (str[*i] == c) 
+	if (str[*i] == c)
 	{
 		(*i)++;
 		while (str[*i] != c)
@@ -63,27 +63,6 @@ void	ft_get_count(const char *str, const char *sep, int *count)
 		ft_split_logic(str, sep, &i, &old_i);
 		if (i > old_i)
 			(*count)++;
-	}
-}
-
-void	ft_remove_char(char *str, char char_to_remove)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	len = ft_strlen(str);
-	i = -1;
-	while (++i < len)
-	{
-		if (str[i] == char_to_remove)
-		{
-			j = i - 1;
-			while (++j < len)
-				str[j] = str[j + 1];
-			len--;
-			i--;
-		}
 	}
 }
 

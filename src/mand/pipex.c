@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/15 10:51:29 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:10:25 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd *cmd, int pid_i)
 		terminate(ERR_DUP);
 	if (close(fd[pid_i + 1][1]) == -1)
 		terminate(ERR_CLOSE);
-	ft_process_argv(system.argv[pid_i + 2], &cmd->split_args, &cmd->exec_command,
-		system.env);
+	ft_process_argv(system.argv[pid_i + 2], &cmd->split_args,
+		&cmd->exec_command, system.env);
 	if (execve(cmd->exec_command, cmd->split_args, system.env) == -1)
 		terminate_with_info(system.env, cmd->split_args[0]);
 }

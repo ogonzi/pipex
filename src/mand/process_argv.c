@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/15 15:03:31 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:10:34 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	ft_check_script(char **command, char *first_arg, char **paths)
 		return (1);
 	return (0);
 }
-
 
 void	ft_process_argv(char *argv, char ***argv_split, char **command,
 			char *env[])

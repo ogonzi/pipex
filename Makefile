@@ -6,7 +6,7 @@
 #    By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 10:00:13 by ogonzale          #+#    #+#              #
-#    Updated: 2022/08/14 10:08:44 by ogonzale         ###   ########.fr        #
+#    Updated: 2022/09/15 15:08:48 by ogonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ WHITE 		:= \033[0;97m
 #Sources
 
 MAND_DIR	:= mand/
-MAND_FILES	:= pipex process_argv split utils 
+MAND_FILES	:= pipex process_argv split utils utils_2 
 
 BONUS_DIR	:= bonus/
 BONUS_FILES	:= 
