@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 10:00:14 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 12:11:01 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:05:39 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
 
 void	ft_skip_quoted(const char *str, int *i, char c)
 {
-	if (str[*i] == c)
+	if (str[*i] == c) 
 	{
 		(*i)++;
 		while (str[*i] != c)
 		{
 			if (str[*i] == '\0')
 				terminate(ERR_QUOTES);
+			if (str[*i] == '\\' && str[*i + 1] == c)
+				(*i)++;
 			(*i)++;
 		}
 	}
@@ -64,6 +66,27 @@ void	ft_get_count(const char *str, const char *sep, int *count)
 	}
 }
 
+void	ft_remove_char(char *str, char char_to_remove)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	len = ft_strlen(str);
+	i = -1;
+	while (++i < len)
+	{
+		if (str[i] == char_to_remove)
+		{
+			j = i - 1;
+			while (++j < len)
+				str[j] = str[j + 1];
+			len--;
+			i--;
+		}
+	}
+}
+
 void	ft_get_splits(char **str_split, const char *str, const char *sep)
 {
 	int	i;
@@ -81,6 +104,7 @@ void	ft_get_splits(char **str_split, const char *str, const char *sep)
 				str_split[j] = ft_substr(str, old_i + 1, i - old_i - 2);
 			else
 				str_split[j] = ft_substr(str, old_i, i - old_i);
+			ft_remove_char(str_split[j], '\\');
 			if (!str_split[j])
 			{
 				ft_free_twod_memory(str_split);
