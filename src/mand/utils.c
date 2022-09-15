@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/08/13 17:51:41 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/15 18:12:15 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /*
  * If there is no error code given by errno, add error message to stdout 2.
@@ -41,7 +42,7 @@ void	ft_compose_message(t_error_info *error_info, char *command)
 	free(error_info->partial_message);
 }
 
-void	terminate_with_info(char **env, char *command)
+void	terminate_with_info(char **env, int err_code, char *command)
 {
 	t_error_info	error_info;
 	int				i;
@@ -66,7 +67,7 @@ void	terminate_with_info(char **env, char *command)
 	}
 	ft_compose_message(&error_info, command);
 	perror(error_info.complete_message);
-	exit(EXIT_FAILURE);
+	exit(err_code);
 }
 
 void	ft_free_twod_memory(char **arr)

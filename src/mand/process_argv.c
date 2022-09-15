@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/15 15:10:34 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/15 18:54:11 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "error_message.h"
 #include "split.h"
 #include <stdio.h>
+#include <string.h>
 
 void	ft_get_paths(char ***paths, char *env[])
 {
@@ -59,7 +60,7 @@ int	ft_check_script(char **command, char *first_arg, char **paths)
 	return (0);
 }
 
-void	ft_process_argv(char *argv, char ***argv_split, char **command,
+int	ft_process_argv(char *argv, char ***argv_split, char **command,
 			char *env[])
 {
 	char	**paths;
@@ -79,11 +80,14 @@ void	ft_process_argv(char *argv, char ***argv_split, char **command,
 			terminate(ERR_MEM);
 		free(full_path);
 		if (ft_check_access(command, paths) == 1)
-			return ;
+			return (0);
 		free(*command);
 		i++;
 	}
 	if (ft_check_script(command, *argv_split[0], paths) == 1)
-		return ;
+		return (0);
 	ft_free_twod_memory(paths);
+	if (ft_strchr((const char *)*command, '/') == NULL)
+		return (127);
+	return (126);
 }

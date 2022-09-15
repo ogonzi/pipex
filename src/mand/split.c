@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 10:00:14 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/15 15:10:47 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/15 17:19:25 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_get_splits(char **str_split, const char *str, const char *sep)
 				str_split[j] = ft_substr(str, old_i + 1, i - old_i - 2);
 			else
 				str_split[j] = ft_substr(str, old_i, i - old_i);
-			ft_remove_char(str_split[j], '\\');
+			ft_remove_char(str_split[j], '\\', 0);
 			if (!str_split[j])
 			{
 				ft_free_twod_memory(str_split);
@@ -105,5 +105,8 @@ char	**ft_split_mod(const char *str, const char *sep)
 	if (!str_split)
 		terminate(ERR_MEM);
 	ft_get_splits(str_split, str, sep);
+	ft_remove_char(str_split[0], '\"', 1);
+	ft_remove_char(str_split[0], '\'', 1);
+	//fprintf(stderr, "str_split[0] = %s\n", str_split[0]);
 	return (str_split);
 }
