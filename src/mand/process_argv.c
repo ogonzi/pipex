@@ -6,14 +6,13 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:25:24 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:26:05 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "utils.h"
 #include "pipex.h"
-//#include <stdio.h>
 
 void	ft_get_paths(char ***paths, char *env[])
 {

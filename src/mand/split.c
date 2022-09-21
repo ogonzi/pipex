@@ -6,15 +6,12 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 10:00:14 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 10:29:53 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:26:55 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "utils.h"
-#include "error_message.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void	ft_skip_quoted(const char *str, int *i, char c)
 {

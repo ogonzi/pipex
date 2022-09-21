@@ -6,12 +6,11 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 15:08:03 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:19:13 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:28:15 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 int	ft_search_first(char *str, int len, char char_to_remove)
 {
