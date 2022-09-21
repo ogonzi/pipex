@@ -6,19 +6,14 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 11:23:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:19:42 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:23:42 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "error_message.h"
-#include "process_argv.h"
+#include "pipex.h"
 #include "utils.h"
 #include "libft.h"
-#include <unistd.h>
-#include <sys/wait.h>
 #include <fcntl.h>
-#include <stdio.h>
 
 void	ft_create_pipes(int fd[3][2])
 {
