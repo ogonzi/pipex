@@ -5,17 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 18:00:26 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:01:06 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/09/21 18:31:58 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/09/21 18:32:22 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "utils.h"
-#include "error_message.h"
-#include "split.h"
-#include <stdio.h>
-#include <string.h>
+#include "utils_bonus.h"
+#include "pipex_bonus.h"
 
 void	ft_get_paths(char ***paths, char *env[])
 {

@@ -6,14 +6,14 @@
 #    By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 10:00:13 by ogonzale          #+#    #+#              #
-#    Updated: 2022/09/21 16:54:23 by ogonzale         ###   ########.fr        #
+#    Updated: 2022/09/21 18:39:12 by ogonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Standard
 
 NAME 		:= pipex
-BNAME		:= pipex_bonus
+BNAME		:= pipex
 INC		 	:= inc/
 LIBFT_DIR	:= lib/libft/
 LIBFT		:= $(LIBFT_DIR)libft.a
@@ -42,7 +42,8 @@ MAND_DIR	:= mand/
 MAND_FILES	:= pipex process_argv split utils utils_2 
 
 BONUS_DIR	:= bonus/
-BONUS_FILES	:= 
+BONUS_FILES	:= pipex_bonus process_argv_bonus split_bonus \
+			   utils_bonus utils_2_bonus
 
 SRC_FILES	= $(addprefix $(MAND_DIR), $(MAND_FILES))
 SRC_BFILES	= $(addprefix $(BONUS_DIR), $(BONUS_FILES))
@@ -89,7 +90,7 @@ fclean:	clean
 re:	fclean all
 	@echo "$(GREEN)Cleaned and rebuilt everything for $(NAME)$(DEF_COLOR)"
 
-#bonus:	$(LIBFT) $(BNAME)
+bonus:	$(LIBFT) $(BNAME)
 
 $(BNAME):	$(BOBJ)
 	@$(CC) $(CFLAGS) $(BOBJ) $(LIBFT) -o $(BNAME)

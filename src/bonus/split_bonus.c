@@ -5,16 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 18:00:38 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:00:41 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/09/21 18:32:31 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/09/21 18:32:43 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "utils.h"
-#include "error_message.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "utils_bonus.h"
 
 void	ft_skip_quoted(const char *str, int *i, char c)
 {

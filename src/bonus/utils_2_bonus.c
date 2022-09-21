@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 18:00:48 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:00:53 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/09/21 18:33:06 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/09/21 18:33:11 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 int	ft_search_first(char *str, int len, char char_to_remove)
 {
