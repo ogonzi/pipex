@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 11:26:19 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:11:21 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,19 @@ void	ft_get_paths(char ***paths, char *env[])
 			if (!(*paths))
 				terminate(ERR_MEM);
 			free(path_line);
-			break ;
+			return ;
 		}
 		i++;
 	}
+	**paths = NULL;
 }
 
 int	ft_check_access(char **command, char **paths)
 {
 	if (access(*command, X_OK) == 0)
 	{
-		ft_free_twod_memory(paths);
+		if (*paths != NULL)
+			ft_free_twod_memory(paths);
 		return (1);
 	}
 	return (0);
@@ -56,7 +58,11 @@ int	ft_check_script(char **command, char *first_arg, char **paths)
 	if (!(*command))
 		terminate(ERR_MEM);
 	if (ft_check_access(command, paths) == 1)
+	{
+		if (ft_strchr((const char *)*command, '/') == NULL)
+			exit(127);
 		return (1);
+	}
 	return (0);
 }
 
@@ -91,12 +97,9 @@ int	ft_process_argv(char *argv, char ***argv_split, char **command,
 		i++;
 	}
 	if (ft_check_script(command, *argv_split[0], paths) == 1)
-	{
-		if (ft_strchr((const char *)*command, '/') == NULL)
-			exit(127);
 		return (0);
-	}	
-	ft_free_twod_memory(paths);
+	if (*paths != NULL)
+		ft_free_twod_memory(paths);
 	if (ft_strchr((const char *)*command, '/') == NULL)
 		return (127);
 	return (126);

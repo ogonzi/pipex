@@ -1,6 +1,10 @@
 #!/bin/bash
 
-file='files/infile'
-while read line; do
-	echo $line
-done < $file
+#read from stdin
+while read line
+do
+  echo "$line"
+done
+
+echo "Some more text"
+echo "test"

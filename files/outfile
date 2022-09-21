@@ -1,19 +1,2 @@
-Teste file with stuff inside
-That does nothing
-And also have some lines
-And some more information
-Hello
-^D[1m[7m%[27m[1m[0m                                                                                [0m[27m[24m[Jogonzale@cbr3s5 files % [K[?2004hTTeste file with stuff inside[?2004l
-zsh: command not found: Teste
-[1m[7m%[27m[1m[0m                                                                                [0m[27m[24m[Jogonzale@cbr3s5 files % [K[?2004hTThat does nothing[?2004l
-zsh: command not found: That
-[1m[7m%[27m[1m[0m                                                                                [0m[27m[24m[Jogonzale@cbr3s5 files % [K[?2004hAAnd also have some lines[?2004l
-zsh: command not found: And
-[1m[7m%[27m[1m[0m                                                                                [0m[27m[24m[Jogonzale@cbr3s5 files % [K[?2004hAAnd some more information[?2004l
-zsh: command not found: And
-[1m[7m%[27m[1m[0m                                                                                [0m[27m[24m[Jogonzale@cbr3s5 files % [K[?2004hHHello[?2004l
-zsh: command not found: Hello
-[1m[7m%[27m[1m[0m                                                                                [0m[27m[24m[Jogonzale@cbr3s5 files % [K[?2004h[?2004l
-Script started, output file is typescript
-
-Script done, output file is typescript
+Some more text
+test
