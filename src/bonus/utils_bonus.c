@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:19:00 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/09/21 18:01:00 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/09/21 18:01:05 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ void	terminate_with_info(int err_code, char *command)
 	t_error_info	error_info;
 
 	error_info.shell = malloc(sizeof(char) * (ft_strlen("bash") + 1));
-	if (error_info.shell == NULL)
-		terminate(ERR_MEM);
 	ft_strlcpy(error_info.shell, "bash", 5);
 	ft_compose_message(&error_info, command, err_code);
 	exit(err_code);

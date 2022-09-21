@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:52:54 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/15 18:12:01 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/21 18:18:04 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_error_info
 /* utils.c */
 
 void	terminate(char *s);
-void	terminate_with_info(char **env, int err_code, char *command);
+void	terminate_with_info(int err_code, char *command);
 void	ft_free_twod_memory(char **arr);
 void	ft_close_fd(int fd[3][2], int pipe_num);
 
