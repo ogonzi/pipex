@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/11 10:00:14 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/15 17:19:25 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:29:53 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,5 @@ char	**ft_split_mod(const char *str, const char *sep)
 	ft_get_splits(str_split, str, sep);
 	ft_remove_char(str_split[0], '\"', 1);
 	ft_remove_char(str_split[0], '\'', 1);
-	//fprintf(stderr, "str_split[0] = %s\n", str_split[0]);
 	return (str_split);
 }

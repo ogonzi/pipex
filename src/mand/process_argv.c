@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 16:01:24 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/15 18:54:11 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:32:34 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,18 @@ int	ft_check_script(char **command, char *first_arg, char **paths)
 	return (0);
 }
 
+void	ft_get_full_path(char *path, char **full_path, char *user_command,
+			char **command)
+{
+	*full_path = ft_strjoin(path, "/");
+	if (!(*full_path))
+		terminate(ERR_MEM);
+	*command = ft_strjoin(*full_path, user_command);
+	if (!(*command))
+		terminate(ERR_MEM);
+	free(*full_path);
+}
+
 int	ft_process_argv(char *argv, char ***argv_split, char **command,
 			char *env[])
 {
@@ -72,13 +84,7 @@ int	ft_process_argv(char *argv, char ***argv_split, char **command,
 	i = 0;
 	while (paths[i] != NULL)
 	{
-		full_path = ft_strjoin(paths[i], "/");
-		if (!full_path)
-			terminate(ERR_MEM);
-		*command = ft_strjoin(full_path, *argv_split[0]);
-		if (!(*command))
-			terminate(ERR_MEM);
-		free(full_path);
+		ft_get_full_path(paths[i], &full_path, *argv_split[0], command);
 		if (ft_check_access(command, paths) == 1)
 			return (0);
 		free(*command);

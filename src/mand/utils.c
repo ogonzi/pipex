@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 12:48:12 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/15 18:12:15 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:03:42 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ void	terminate(char *s)
 	exit(EXIT_FAILURE);
 }
 
-void	ft_compose_message(t_error_info *error_info, char *command)
+void	ft_compose_message(t_error_info *error_info, char *command,
+							int err_code)
 {
+	char	*command_err;
+
 	error_info->partial_message = ft_strjoin(error_info->shell, ": ");
 	if (!error_info->partial_message)
 		terminate(ERR_MEM);
@@ -40,6 +43,16 @@ void	ft_compose_message(t_error_info *error_info, char *command)
 	if (!error_info->complete_message)
 		terminate(ERR_MEM);
 	free(error_info->partial_message);
+	if (err_code != 127)
+		perror(error_info->complete_message);
+	else
+	{
+		command_err = ft_strjoin(error_info->complete_message,
+				": command not found");
+		if (command_err == NULL)
+			terminate(ERR_MEM);
+		ft_putendl_fd(command_err, STDERR_FILENO);
+	}
 }
 
 void	terminate_with_info(char **env, int err_code, char *command)
@@ -65,8 +78,7 @@ void	terminate_with_info(char **env, int err_code, char *command)
 		}
 		i++;
 	}
-	ft_compose_message(&error_info, command);
-	perror(error_info.complete_message);
+	ft_compose_message(&error_info, command, err_code);
 	exit(err_code);
 }
 
