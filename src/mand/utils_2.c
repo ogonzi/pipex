@@ -69,3 +69,4 @@ void	ft_remove_char(char *str, char char_to_remove, int first_and_last)
 		}
 	}
 }
+

@@ -6,7 +6,7 @@
 #    By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 10:00:13 by ogonzale          #+#    #+#              #
-#    Updated: 2022/09/15 15:08:48 by ogonzale         ###   ########.fr        #
+#    Updated: 2022/09/21 16:54:23 by ogonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,15 +17,12 @@ BNAME		:= pipex_bonus
 INC		 	:= inc/
 LIBFT_DIR	:= lib/libft/
 LIBFT		:= $(LIBFT_DIR)libft.a
-HEADER 		= -I$(INC) -I$(LIBFT_DIR)$(INC)
+INCLUDE 	:= -I$(INC) -I$(LIBFT_DIR)$(INC)
 SRC_DIR 	:= src/
 OBJ_DIR 	:= obj/
 CC 			:= cc
-CFLAGS 		:= -Wall -Wextra -Werror -g3
-FSANITIZE	:= -fsanitize=address -g3
+CFLAGS 		:= -Wall -Wextra -Werror
 RM 			:= rm -f
-ECHO		:= echo -e
-UNAME		:= $(shell uname)
 
 # Colors
 
@@ -58,23 +55,16 @@ BOBJ 		= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_BFILES)))
 
 ###
 
-OBJF := .cache_exists
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c Makefile
+	@mkdir -p $(dir $@)
+	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
+	@$(CC) -MT $@ -MMD -MP $(CFLAGS) $(INCLUDE) -c $< -o $@
 
-all:	$(NAME)
+all:	$(LIBFT) $(NAME)
 
-$(NAME):	$(LIBFT) $(OBJ)
+$(NAME):	$(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)$(NAME) compiled!$(DEF_COLOR)"
-
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJF)
-	@echo "$(YELLOW)Compiling: $< $(DEF_COLOR)"
-	@$(CC) -MT $@ -MMD -MP $(CFLAGS) $(HEADER) -O3 -c $< -o $@
-
-$(OBJF):
-	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(OBJ_DIR)$(MAND_DIR)
-	@mkdir -p $(OBJ_DIR)$(BONUS_DIR)
-	@touch $(OBJF)
 
 $(LIBFT):
 	@make -sC $(LIBFT_DIR)
@@ -99,9 +89,9 @@ fclean:	clean
 re:	fclean all
 	@echo "$(GREEN)Cleaned and rebuilt everything for $(NAME)$(DEF_COLOR)"
 
-#bonus:	$(BNAME)
+#bonus:	$(LIBFT) $(BNAME)
 
-$(BNAME):	$(BOBJ) $(LIBFT)
+$(BNAME):	$(BOBJ)
 	@$(CC) $(CFLAGS) $(BOBJ) $(LIBFT) -o $(BNAME)
 	@echo "$(GREEN)$(BNAME) compiled!$(DEF_COLOR)"
 
