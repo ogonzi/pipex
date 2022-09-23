@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:32:49 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:32:59 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/23 10:07:50 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_free_twod_memory(char **arr)
 	free(arr);
 }
 
-void	ft_close_fd(int fd[3][2], int pipe_num)
+void	ft_close_fd(int **fd, int pipe_num)
 {
 	int	j;
 

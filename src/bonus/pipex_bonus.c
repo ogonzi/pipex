@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:31:27 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:32:24 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/23 10:24:59 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include "utils_bonus.h"
 #include "libft.h"
 #include <fcntl.h>
+#include <stdio.h>
 
-void	ft_create_pipes(int fd[3][2])
+void	ft_create_pipes(int **fd)
 {
 	int	i;
 
@@ -39,7 +40,7 @@ void	ft_create_pipes(int fd[3][2])
  * and then execve will write to this file with the corresponding dup2 of STDOUT.
  */
 
-void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd *cmd, int pid_i)
+void	ft_redirect_pipes(int **fd, t_sys system, t_cmd *cmd, int pid_i)
 {
 	if (pid_i == 0)
 	{
@@ -75,7 +76,7 @@ void	ft_redirect_pipes(int fd[3][2], t_sys system, t_cmd *cmd, int pid_i)
  * called to kill that process.
  */
 
-void	ft_loop_child_processes(int fd[3][2], t_sys system, t_cmd *cmd,
+void	ft_loop_child_processes(int **fd, t_sys system, t_cmd *cmd,
 			int *last_pid)
 {
 	int	pid[2];
@@ -109,7 +110,7 @@ void	ft_loop_child_processes(int fd[3][2], t_sys system, t_cmd *cmd,
  * in the child, the appropiate message and return value are commited.
  */
 
-void	ft_parent_process(int fd[3][2], int last_pid)
+void	ft_parent_process(int **fd, int last_pid)
 {
 	int				i;
 	t_child_status	child;
@@ -136,6 +137,22 @@ void	ft_parent_process(int fd[3][2], int last_pid)
 	}
 }
 
+void	ft_alloc_fd(int ***fd, int argc)
+{
+	int	i;
+
+	*fd = malloc(sizeof(int *) * (argc - 2));
+	if (*fd == NULL)
+		terminate(ERR_MEM);
+	i = -1;
+	while (++i < argc - 2)
+	{
+		*fd[i] = malloc(sizeof(int) * 2);
+		if (*fd[i] == NULL)
+			terminate(ERR_MEM);
+	}
+}
+
 /*
  * 3 pipes are created, therefore 2 calls to fork() are needed to 
  * create 2 child processes and 1 parent process. To follow the behaviour
@@ -147,7 +164,7 @@ void	ft_parent_process(int fd[3][2], int last_pid)
 
 int	main(int argc, char **argv, char **env)
 {
-	int		fd[3][2];
+	int		**fd;
 	int		last_pid;
 	t_sys	system;
 	t_cmd	cmd;
@@ -159,6 +176,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	system.argv = argv;
 	system.env = env;
+	ft_alloc_fd(&fd, argc);
 	ft_create_pipes(fd);
 	ft_loop_child_processes(fd, system, &cmd, &last_pid);
 	ft_parent_process(fd, last_pid);
