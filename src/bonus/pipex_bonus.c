@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:31:27 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/23 10:24:59 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/23 13:25:41 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-void	ft_create_pipes(int **fd)
+void	ft_create_pipes(int ***fd)
 {
 	int	i;
 
 	i = 0;
 	while (i < 3)
 	{
-		if (pipe(fd[i]) < 0)
+		if (pipe((*fd)[i]) < 0)
 			terminate(ERR_PIPE);
 		i++;
 	}
@@ -40,28 +40,28 @@ void	ft_create_pipes(int **fd)
  * and then execve will write to this file with the corresponding dup2 of STDOUT.
  */
 
-void	ft_redirect_pipes(int **fd, t_sys system, t_cmd *cmd, int pid_i)
+void	ft_redirect_pipes(int ***fd, t_sys system, t_cmd *cmd, int pid_i)
 {
 	if (pid_i == 0)
 	{
-		fd[pid_i][0] = open(system.argv[1], O_RDONLY);
-		if (fd[pid_i][0] < 0)
+		(*fd)[pid_i][0] = open(system.argv[1], O_RDONLY);
+		if ((*fd)[pid_i][0] < 0)
 			terminate_with_info(system.err_code, system.argv[1]);
 	}
-	if (dup2(fd[pid_i][0], STDIN_FILENO) == -1)
+	if (dup2((*fd)[pid_i][0], STDIN_FILENO) == -1)
 		terminate(ERR_DUP);
-	if (close(fd[pid_i][0]) == -1)
+	if (close((*fd)[pid_i][0]) == -1)
 		terminate(ERR_CLOSE);
 	if (pid_i == 1)
 	{
-		fd[pid_i + 1][1] = open(system.argv[pid_i + 3],
+		(*fd)[pid_i + 1][1] = open(system.argv[pid_i + 3],
 				O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		if (fd[pid_i + 1][1] < 0)
+		if ((*fd)[pid_i + 1][1] < 0)
 			terminate_with_info(1, system.argv[4]);
 	}
-	if (dup2(fd[pid_i + 1][1], STDOUT_FILENO) == -1)
+	if (dup2((*fd)[pid_i + 1][1], STDOUT_FILENO) == -1)
 		terminate(ERR_DUP);
-	if (close(fd[pid_i + 1][1]) == -1)
+	if (close((*fd)[pid_i + 1][1]) == -1)
 		terminate(ERR_CLOSE);
 	system.err_code = ft_process_argv(system.argv[pid_i + 2], &cmd->split_args,
 			&cmd->exec_command, system.env);
@@ -76,7 +76,7 @@ void	ft_redirect_pipes(int **fd, t_sys system, t_cmd *cmd, int pid_i)
  * called to kill that process.
  */
 
-void	ft_loop_child_processes(int **fd, t_sys system, t_cmd *cmd,
+void	ft_loop_child_processes(int ***fd, t_sys system, t_cmd *cmd,
 			int *last_pid)
 {
 	int	pid[2];
@@ -110,17 +110,17 @@ void	ft_loop_child_processes(int **fd, t_sys system, t_cmd *cmd,
  * in the child, the appropiate message and return value are commited.
  */
 
-void	ft_parent_process(int **fd, int last_pid)
+void	ft_parent_process(int ***fd, int last_pid)
 {
 	int				i;
 	t_child_status	child;
 
 	ft_close_fd(fd, 2);
-	if (close(fd[2][0]) == -1)
+	if (close((*fd)[2][0]) == -1)
 		terminate(ERR_CLOSE);
-	if (dup2(fd[0][1], STDOUT_FILENO) < 0)
+	if (dup2((*fd)[0][1], STDOUT_FILENO) < 0)
 		terminate(ERR_DUP);
-	if (close(fd[0][1]) == -1)
+	if (close((*fd)[0][1]) == -1)
 		terminate(ERR_CLOSE);
 	i = -1;
 	while (++i < 2)
@@ -147,8 +147,8 @@ void	ft_alloc_fd(int ***fd, int argc)
 	i = -1;
 	while (++i < argc - 2)
 	{
-		*fd[i] = malloc(sizeof(int) * 2);
-		if (*fd[i] == NULL)
+		(*fd)[i] = malloc(sizeof(int) * 2);
+		if ((*fd)[i] == NULL)
 			terminate(ERR_MEM);
 	}
 }
@@ -177,8 +177,8 @@ int	main(int argc, char **argv, char **env)
 	system.argv = argv;
 	system.env = env;
 	ft_alloc_fd(&fd, argc);
-	ft_create_pipes(fd);
-	ft_loop_child_processes(fd, system, &cmd, &last_pid);
-	ft_parent_process(fd, last_pid);
+	ft_create_pipes(&fd);
+	ft_loop_child_processes(&fd, system, &cmd, &last_pid);
+	ft_parent_process(&fd, last_pid);
 	return (0);
 }
