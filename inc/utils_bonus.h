@@ -6,14 +6,14 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:34:19 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/23 13:20:32 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:32:28 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_BONUS_H
 # define UTILS_BONUS_H
 
-# define ERR_ARGS	"Incorrect number of arguments, expected 5"
+# define ERR_ARGS	"Incorrect number of arguments, expected 5 or more"
 # define ERR_OPEN	"Error opening the file"
 # define ERR_READ	"Error reading the file"
 # define ERR_WRITE	"Error writing to a file"
@@ -38,6 +38,7 @@ typedef struct s_sys
 {
 	char	**argv;
 	char	**env;
+	int		argc;
 	int		err_code;
 }				t_sys;
 
@@ -60,10 +61,15 @@ typedef struct s_error_info
 void	terminate(char *s);
 void	terminate_with_info(int err_code, char *command);
 void	ft_free_twod_memory(char **arr);
-void	ft_close_fd(int ***fd, int pipe_num);
+void	ft_close_fd(int ***fd, int pipe_num, int num_pipes);
 
 /* utils_2_bonus.c */
 
 void	ft_remove_char(char *str, char char_to_remove, int first_and_last);
+
+/* utils_3_bonus.c */
+
+void	ft_alloc_fd(int ***fd, int argc);
+void	ft_free_fd(int ***fd, int argc);
 
 #endif

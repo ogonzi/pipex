@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:31:27 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/23 13:25:41 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:34:35 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-void	ft_create_pipes(int ***fd)
+void	ft_create_pipes(int ***fd, int argc)
 {
 	int	i;
 
 	i = 0;
-	while (i < 3)
+	while (i < argc - 2)
 	{
 		if (pipe((*fd)[i]) < 0)
 			terminate(ERR_PIPE);
@@ -52,12 +52,12 @@ void	ft_redirect_pipes(int ***fd, t_sys system, t_cmd *cmd, int pid_i)
 		terminate(ERR_DUP);
 	if (close((*fd)[pid_i][0]) == -1)
 		terminate(ERR_CLOSE);
-	if (pid_i == 1)
+	if (pid_i == system.argc - 4)
 	{
-		(*fd)[pid_i + 1][1] = open(system.argv[pid_i + 3],
+		(*fd)[pid_i + 1][1] = open(system.argv[system.argc - 1],
 				O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if ((*fd)[pid_i + 1][1] < 0)
-			terminate_with_info(1, system.argv[4]);
+			terminate_with_info(1, system.argv[system.argc - 1]);
 	}
 	if (dup2((*fd)[pid_i + 1][1], STDOUT_FILENO) == -1)
 		terminate(ERR_DUP);
@@ -79,25 +79,29 @@ void	ft_redirect_pipes(int ***fd, t_sys system, t_cmd *cmd, int pid_i)
 void	ft_loop_child_processes(int ***fd, t_sys system, t_cmd *cmd,
 			int *last_pid)
 {
-	int	pid[2];
+	int	*pid;
 	int	i;
 
+	pid = malloc(sizeof(int) * (system.argc - 3));
+	if (pid == NULL)
+		terminate(ERR_MEM);
 	i = 0;
-	while (i < 2)
+	while (i < system.argc - 3)
 	{
 		pid[i] = fork();
 		if (pid[i] < 0)
 			terminate(ERR_FORK);
 		if (pid[i] == 0)
 		{
-			ft_close_fd(fd, i);
+			ft_close_fd(fd, i, system.argc - 2);
 			ft_redirect_pipes(fd, system, cmd, i);
 			exit(EXIT_SUCCESS);
 		}
-		else if (i == 1 && pid[i] > 0)
+		else if (i == system.argc - 4 && pid[i] > 0)
 			*last_pid = pid[i];
 		i++;
 	}
+	free(pid);
 }
 
 /*
@@ -110,20 +114,20 @@ void	ft_loop_child_processes(int ***fd, t_sys system, t_cmd *cmd,
  * in the child, the appropiate message and return value are commited.
  */
 
-void	ft_parent_process(int ***fd, int last_pid)
+void	ft_parent_process(int ***fd, int last_pid, int argc)
 {
 	int				i;
 	t_child_status	child;
 
-	ft_close_fd(fd, 2);
-	if (close((*fd)[2][0]) == -1)
+	ft_close_fd(fd, argc - 3, argc - 2);
+	if (close((*fd)[argc - 3][0]) == -1)
 		terminate(ERR_CLOSE);
 	if (dup2((*fd)[0][1], STDOUT_FILENO) < 0)
 		terminate(ERR_DUP);
 	if (close((*fd)[0][1]) == -1)
 		terminate(ERR_CLOSE);
 	i = -1;
-	while (++i < 2)
+	while (++i < argc - 3)
 	{
 		child.pid = wait(&child.wstatus);
 		if (child.pid == -1)
@@ -134,22 +138,6 @@ void	ft_parent_process(int ***fd, int last_pid)
 			if (child.status_code != 0 && child.pid == last_pid)
 				exit(child.status_code);
 		}
-	}
-}
-
-void	ft_alloc_fd(int ***fd, int argc)
-{
-	int	i;
-
-	*fd = malloc(sizeof(int *) * (argc - 2));
-	if (*fd == NULL)
-		terminate(ERR_MEM);
-	i = -1;
-	while (++i < argc - 2)
-	{
-		(*fd)[i] = malloc(sizeof(int) * 2);
-		if ((*fd)[i] == NULL)
-			terminate(ERR_MEM);
 	}
 }
 
@@ -169,16 +157,18 @@ int	main(int argc, char **argv, char **env)
 	t_sys	system;
 	t_cmd	cmd;
 
-	if (argc != 5)
+	if (argc < 5)
 	{
 		ft_putendl_fd(ERR_ARGS, 2);
 		exit(EXIT_FAILURE);
 	}
 	system.argv = argv;
 	system.env = env;
+	system.argc = argc;
 	ft_alloc_fd(&fd, argc);
-	ft_create_pipes(&fd);
+	ft_create_pipes(&fd, argc);
 	ft_loop_child_processes(&fd, system, &cmd, &last_pid);
-	ft_parent_process(&fd, last_pid);
+	ft_parent_process(&fd, last_pid, argc);
+	ft_free_fd(&fd, argc);
 	return (0);
 }

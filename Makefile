@@ -6,7 +6,7 @@
 #    By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 10:00:13 by ogonzale          #+#    #+#              #
-#    Updated: 2022/09/23 10:17:42 by ogonzale         ###   ########.fr        #
+#    Updated: 2022/09/23 14:40:44 by ogonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ MAND_FILES	:= pipex process_argv split utils utils_2
 
 BONUS_DIR	:= bonus/
 BONUS_FILES	:= pipex_bonus process_argv_bonus split_bonus \
-			   utils_bonus utils_2_bonus
+			   utils_bonus utils_2_bonus utils_3_bonus
 
 SRC_FILES	= $(addprefix $(MAND_DIR), $(MAND_FILES))
 SRC_BFILES	= $(addprefix $(BONUS_DIR), $(BONUS_FILES))
