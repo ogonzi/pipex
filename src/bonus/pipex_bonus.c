@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:31:27 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 11:29:57 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/27 11:46:29 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,10 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc < 5)
 	{
-		ft_putendl_fd(ERR_ARGS, 2);
+		ft_putendl_fd(ERR_ARGS, STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	system.argv = argv;
-	system.env = env;
-	system.argc = argc;
-	system.num_pipes = argc - 2;
-	system.num_forks = system.num_pipes - 1;
+	ft_set_info(&system, argc, argv, env);
 	ft_alloc_fd(&fd, system.num_pipes);
 	ft_create_pipes(&fd, system.num_pipes);
 	ft_loop_child_processes(&fd, system, &cmd, &last_pid);
