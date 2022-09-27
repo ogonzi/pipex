@@ -42,13 +42,21 @@ This project is about handling pipes, more specifically, it is about simulating 
 ```shell
 < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2 
 ```
+
+The following sheme represents the flow of the program for:
+```shell
+./pipex infile cmd0 cmd1 cmd2 outfile
+```
+
 <p align="center">
 	<img src="https://github.com/ogonzi/pipex/blob/dev/files/scheme.jpg" />
 </p>
+
 - Supports << and >> when the first parameter is "here\_doc". Behaves like:
 ```shell
 cmd << LIMITER | cmd1 >> file 
 ```
+The only changes to the previous scheme to handle here\_doc involve fd[0][0] and fd[1][1], where get\_next\_line is using to read from STDIN and ft\_printf prints to STDOUT, which has been previously been dup2 with fd[1][1].
 
 ## Usage
 
