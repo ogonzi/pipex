@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:34:19 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 11:48:18 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:11:00 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,16 @@ void	ft_close_fd(int ***fd, int pipe_num, int num_pipes);
 
 /* utils_2_bonus.c */
 
-void	ft_remove_char(char *str, char char_to_remove, int first_and_last);
+void	ft_open_infile(int pid_i, int ***fd, t_sys system);
+void	ft_open_outfile(int pid_i, int ***fd, t_sys system);
+void	ft_input_to_output(int pid_i, int ***fd, t_sys system);
 
 /* utils_3_bonus.c */
 
 void	ft_alloc_fd(int ***fd, int num_pipes);
 void	ft_free_fd(int ***fd, int num_pipes);
 void	ft_set_info(t_sys *system, int argc, char **argv, char **env);
+void	ft_dup_and_close(int pid_i, int read_write_flag, int ***fd,
+			int std_fileno);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 13:28:48 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 11:48:50 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:10:39 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,23 @@ void	ft_set_info(t_sys *system, int argc, char **argv, char **env)
 	}
 	system->num_pipes = argc - 2 - system->heredoc_flag;
 	system->num_forks = system->num_pipes - 1;
-}	
+}
+
+void	ft_dup_and_close(int pipe, int read_write_flag, int ***fd,
+			int std_fileno)
+{
+	if (read_write_flag == 0)
+	{
+		if (dup2((*fd)[pipe][0], std_fileno) == -1)
+			terminate(ERR_DUP);
+		if (close((*fd)[pipe][0]) == -1)
+			terminate(ERR_CLOSE);
+	}
+	else
+	{
+		if (dup2((*fd)[pipe][1], std_fileno) == -1)
+			terminate(ERR_DUP);
+		if (close((*fd)[pipe][1]) == -1)
+			terminate(ERR_CLOSE);
+	}
+}

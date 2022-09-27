@@ -5,66 +5,60 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 18:33:06 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:33:11 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/09/27 16:54:44 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/09/27 17:10:20 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "utils_bonus.h"
+#include "get_next_line.h"
+#include "ft_printf.h"
 #include "libft.h"
+#include <fcntl.h>
 
-int	ft_search_first(char *str, int len, char char_to_remove)
+void	ft_open_infile(int pid_i, int ***fd, t_sys system)
 {
-	int	i;
-
-	i = -1;
-	while (++i < len)
-		if (str[i] == char_to_remove)
-			return (i);
-	return (-1);
+	(*fd)[pid_i][0] = open(system.argv[1], O_RDONLY);
+	if ((*fd)[pid_i][0] < 0)
+		terminate_with_info(system.err_code, system.argv[1]);
 }
 
-int	ft_search_last(char *str, int len, char char_to_remove)
+void	ft_open_outfile(int pid_i, int ***fd, t_sys system)
 {
-	int	i;
-
-	i = len;
-	while (--i >= 0)
+	if (system.heredoc_flag == 0)
 	{
-		if (str[i] == char_to_remove)
-			return (i);
+		(*fd)[pid_i + 1][1] = open(system.argv[system.argc - 1],
+				O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	}
-	return (-1);
-}
-
-void	ft_remove_sequence(int *i, int *j, int *len, char **str)
-{
-	*j = *i - 1;
-	while (++(*j) < *len)
-		(*str)[*j] = (*str)[*j + 1];
-	(*len)--;
-	(*i)--;
-}
-
-void	ft_remove_char(char *str, char char_to_remove, int first_and_last)
-{
-	int	i;
-	int	j;
-	int	len;
-	int	first;
-	int	last;
-
-	len = ft_strlen(str);
-	first = ft_search_first(str, len, char_to_remove);
-	last = ft_search_last(str, len, char_to_remove);
-	i = -1;
-	while (++i < len)
+	else
 	{
-		if (str[i] == char_to_remove)
-		{
-			if (first_and_last == 0)
-				ft_remove_sequence(&i, &j, &len, &str);
-			else if (i == first || i == last - 1)
-				ft_remove_sequence(&i, &j, &len, &str);
-		}
+		(*fd)[pid_i + 1][1] = open(system.argv[system.argc - 1],
+				O_WRONLY | O_APPEND | O_CREAT, 0644);
 	}
+	if ((*fd)[pid_i + 1][1] < 0)
+		terminate_with_info(1, system.argv[system.argc - 1]);
+}
+
+void	ft_input_to_output(int pid_i, int ***fd, t_sys system)
+{
+	char	*line;
+
+	line = get_next_line(STDIN_FILENO);
+	if (line == NULL)
+		terminate(ERR_MEM);
+	if (system.argv[2] == NULL)
+		ft_printf("%s", line);
+	while (system.argv[2] != NULL
+		&& (ft_strncmp(line, system.argv[2], ft_strlen(line) - 1) != 0
+			|| ft_strncmp(line, system.argv[2], ft_strlen(system.argv[2]))
+			!= 0))
+	{
+		ft_printf("%s", line);
+		free(line);
+		line = get_next_line(STDIN_FILENO);
+		if (line == NULL)
+			terminate(ERR_MEM);
+	}
+	free(line);
+	ft_dup_and_close(pid_i, 0, fd, STDIN_FILENO);
 }
