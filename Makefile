@@ -6,14 +6,14 @@
 #    By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 10:00:13 by ogonzale          #+#    #+#              #
-#    Updated: 2022/09/27 11:37:37 by ogonzale         ###   ########.fr        #
+#    Updated: 2022/09/27 15:35:45 by ogonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Standard
 
 NAME 		:= pipex
-BNAME		:= pipex_bonus
+BNAME		:= pipex
 INC		 	:= inc/
 LIBFT_DIR	:= lib/libft/
 LIBFT		:= $(LIBFT_DIR)libft.a

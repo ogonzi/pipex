@@ -6,13 +6,14 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:31:27 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 12:40:27 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:34:28 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 #include "utils_bonus.h"
 #include "get_next_line.h"
+#include "ft_printf.h"
 #include "libft.h"
 #include <fcntl.h>
 #include <stdio.h>
@@ -41,24 +42,60 @@ void	ft_redirect_pipes(int ***fd, t_sys system, t_cmd *cmd, int pid_i)
 		}
 		else
 		{
+			/*
 			line = get_next_line(STDIN_FILENO);
+			ft_printf("%s", line);
 			while (ft_strncmp(line, system.argv[2], ft_strlen(system.argv[2])) != 0)
+			{
 				line = get_next_line(STDIN_FILENO);
+				ft_printf("%s", line);
+			}
+			*/
 		}
 	}
-	if (dup2((*fd)[pid_i][0], STDIN_FILENO) == -1)
-		terminate(ERR_DUP);
-	if (close((*fd)[pid_i][0]) == -1)
-		terminate(ERR_CLOSE);
+	if (pid_i != 0 || system.heredoc_flag == 0)
+	{
+		if (dup2((*fd)[pid_i][0], STDIN_FILENO) == -1)
+			terminate(ERR_DUP);
+		if (close((*fd)[pid_i][0]) == -1)
+			terminate(ERR_CLOSE);
+	}
 	if (pid_i == system.num_forks - 1)
 	{
-		(*fd)[pid_i + 1][1] = open(system.argv[system.argc - 1],
-				O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (system.heredoc_flag == 0)
+		{
+			(*fd)[pid_i + 1][1] = open(system.argv[system.argc - 1],
+					O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		}
+		else
+		{
+			(*fd)[pid_i + 1][1] = open(system.argv[system.argc - 1],
+					O_WRONLY | O_APPEND | O_CREAT, 0644);
+		}
 		if ((*fd)[pid_i + 1][1] < 0)
 			terminate_with_info(1, system.argv[system.argc - 1]);
 	}
 	if (dup2((*fd)[pid_i + 1][1], STDOUT_FILENO) == -1)
 		terminate(ERR_DUP);
+	if (pid_i == 0 && system.heredoc_flag == 1)
+	{
+		line = get_next_line(STDIN_FILENO);
+		if (system.argv[2] == NULL)
+			ft_printf("%s", line);
+		while (system.argv[2] != NULL
+				&&( ft_strncmp(line, system.argv[2], ft_strlen(line) - 1) != 0
+				|| ft_strncmp(line, system.argv[2], ft_strlen(system.argv[2])) != 0))
+		{
+			ft_printf("%s", line);
+			free(line);
+			line = get_next_line(STDIN_FILENO);
+		}
+		free(line);
+		if (dup2((*fd)[pid_i][0], STDIN_FILENO) == -1)
+			terminate(ERR_DUP);
+		if (close((*fd)[pid_i][0]) == -1)
+			terminate(ERR_CLOSE);
+	}
 	if (close((*fd)[pid_i + 1][1]) == -1)
 		terminate(ERR_CLOSE);
 	system.err_code = ft_process_argv(system.argv[pid_i + system.heredoc_flag + 2],
