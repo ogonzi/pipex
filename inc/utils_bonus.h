@@ -6,7 +6,7 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:34:19 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/23 14:32:28 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/27 10:38:16 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_sys
 	char	**argv;
 	char	**env;
 	int		argc;
+	int		num_pipes;
+	int		num_forks;
 	int		err_code;
 }				t_sys;
 
@@ -69,7 +71,7 @@ void	ft_remove_char(char *str, char char_to_remove, int first_and_last);
 
 /* utils_3_bonus.c */
 
-void	ft_alloc_fd(int ***fd, int argc);
-void	ft_free_fd(int ***fd, int argc);
+void	ft_alloc_fd(int ***fd, int num_pipes);
+void	ft_free_fd(int ***fd, int num_pipes);
 
 #endif
