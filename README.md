@@ -43,7 +43,7 @@ This project is about handling pipes, more specifically, it is about simulating 
 < file1 cmd1 | cmd2 | cmd3 ... | cmdn > file2 
 ```
 <p align="center">
-	<img src="https://github.com/ogonzi/push_swap/blob/dev/scheme.jpg" />
+	<img src="https://github.com/ogonzi/pipex/blob/dev/files/scheme.jpg" />
 </p>
 - Supports << and >> when the first parameter is "here\_doc". Behaves like:
 ```shell
