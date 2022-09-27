@@ -56,7 +56,7 @@ The following sheme represents the flow of the program for:
 ```shell
 cmd << LIMITER | cmd1 >> file 
 ```
-The only changes to the previous scheme to handle here\_doc involve fd[0][0] and fd[1][1], where get\_next\_line is using to read from STDIN and ft\_printf prints to STDOUT, which has been previously been dup2 with fd[1][1].
+The only changes to the previous scheme to handle here\_doc involve fd[0][0] and fd[1][1], where get\_next\_line is using to read from STDIN and ft\_printf prints to STDOUT, which has been previously been dup2 with fd[1][1]. Also when opening outfile, an append flag is used instead of the truncate flag.
 
 ## Usage
 
