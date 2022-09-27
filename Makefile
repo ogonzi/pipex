@@ -6,14 +6,13 @@
 #    By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/18 10:00:13 by ogonzale          #+#    #+#              #
-#    Updated: 2022/09/27 17:11:12 by ogonzale         ###   ########.fr        #
+#    Updated: 2022/09/27 17:45:14 by ogonzale         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Standard
 
 NAME 		:= pipex
-BNAME		:= pipex
 INC		 	:= inc/
 LIBFT_DIR	:= lib/libft/
 LIBFT		:= $(LIBFT_DIR)libft.a
@@ -38,21 +37,11 @@ WHITE 		:= \033[0;97m
 
 #Sources
 
-MAND_DIR	:= mand/
-MAND_FILES	:= pipex process_argv split utils utils_2 
-
-BONUS_DIR	:= bonus/
-BONUS_FILES	:= pipex_bonus process_argv_bonus split_bonus remove_char \
-			   utils_bonus utils_2_bonus utils_3_bonus
-
-SRC_FILES	= $(addprefix $(MAND_DIR), $(MAND_FILES))
-SRC_BFILES	= $(addprefix $(BONUS_DIR), $(BONUS_FILES))
+SRC_FILES	= pipex process_argv split remove_char \
+			  utils utils_2 utils_3 
 
 SRC 		= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ 		= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
-
-BSRC 		= $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_BFILES)))
-BOBJ 		= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_BFILES)))
 
 ###
 
@@ -87,17 +76,10 @@ fclean:	clean
 	@echo "$(CYAN)Libft executable files cleaned.$(DEF_COLOR)"
 	@echo "$(CYAN)$(NAME) executable and junk files cleaned.$(DEF_COLOR)"
 
+bonus: $(LIBFT) $(NAME)
+
 re:	fclean all
 	@echo "$(GREEN)Cleaned and rebuilt everything for $(NAME)$(DEF_COLOR)"
-
-bonus:	$(LIBFT) $(BNAME)
-
-$(BNAME):	$(BOBJ)
-	@$(CC) $(CFLAGS) $(BOBJ) $(LIBFT) -o $(BNAME)
-	@echo "$(GREEN)$(BNAME) compiled!$(DEF_COLOR)"
-
-rebonus: fclean bonus
-	@echo "$(GREEN)Cleaned and rebuilt bonus.$(DEF_COLOR)"
 
 norm:
 	@clear

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_2_bonus.c                                    :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/27 16:54:44 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 17:10:20 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/09/27 17:40:08 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/09/27 17:40:17 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils_bonus.h"
+#include "utils.h"
 #include "get_next_line.h"
 #include "ft_printf.h"
 #include "libft.h"

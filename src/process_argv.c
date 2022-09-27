@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_argv_bonus.c                               :+:      :+:    :+:   */
+/*   process_argv.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 18:31:58 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/21 18:32:22 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/09/27 17:39:10 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/09/27 17:39:22 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "utils_bonus.h"
-#include "pipex_bonus.h"
+#include "utils.h"
+#include "pipex.h"
 
 void	ft_get_paths(char ***paths, char *env[])
 {

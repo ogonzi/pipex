@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 18:31:27 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 17:08:31 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/09/27 17:38:49 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/09/27 17:39:24 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
-#include "utils_bonus.h"
+#include "pipex.h"
+#include "utils.h"
 #include "get_next_line.h"
 #include "ft_printf.h"
 #include "libft.h"

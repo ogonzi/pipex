@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_bonus.c                                      :+:      :+:    :+:   */
+/*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/21 18:32:31 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 16:58:04 by ogonzale         ###   ########.fr       */
+/*   Created: 2022/09/27 17:39:34 by ogonzale          #+#    #+#             */
+/*   Updated: 2022/09/27 17:39:44 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "utils_bonus.h"
-#include "pipex_bonus.h"
+#include "utils.h"
+#include "pipex.h"
 
 void	ft_skip_quoted(const char *str, int *i, char c)
 {
