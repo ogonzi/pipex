@@ -6,12 +6,13 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:31:27 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 11:46:29 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/27 12:40:27 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 #include "utils_bonus.h"
+#include "get_next_line.h"
 #include "libft.h"
 #include <fcntl.h>
 #include <stdio.h>
@@ -28,11 +29,22 @@ void	ft_create_pipes(int ***fd, int num_pipes)
 
 void	ft_redirect_pipes(int ***fd, t_sys system, t_cmd *cmd, int pid_i)
 {
+	char	*line;
+
 	if (pid_i == 0)
 	{
-		(*fd)[pid_i][0] = open(system.argv[1], O_RDONLY);
-		if ((*fd)[pid_i][0] < 0)
-			terminate_with_info(system.err_code, system.argv[1]);
+		if (system.heredoc_flag == 0)
+		{
+			(*fd)[pid_i][0] = open(system.argv[1], O_RDONLY);
+			if ((*fd)[pid_i][0] < 0)
+				terminate_with_info(system.err_code, system.argv[1]);
+		}
+		else
+		{
+			line = get_next_line(STDIN_FILENO);
+			while (ft_strncmp(line, system.argv[2], ft_strlen(system.argv[2])) != 0)
+				line = get_next_line(STDIN_FILENO);
+		}
 	}
 	if (dup2((*fd)[pid_i][0], STDIN_FILENO) == -1)
 		terminate(ERR_DUP);
@@ -49,8 +61,8 @@ void	ft_redirect_pipes(int ***fd, t_sys system, t_cmd *cmd, int pid_i)
 		terminate(ERR_DUP);
 	if (close((*fd)[pid_i + 1][1]) == -1)
 		terminate(ERR_CLOSE);
-	system.err_code = ft_process_argv(system.argv[pid_i + 2], &cmd->split_args,
-			&cmd->exec_command, system.env);
+	system.err_code = ft_process_argv(system.argv[pid_i + system.heredoc_flag + 2],
+			&cmd->split_args, &cmd->exec_command, system.env);
 	if (execve(cmd->exec_command, cmd->split_args, system.env) == -1)
 		terminate_with_info(system.err_code, cmd->split_args[0]);
 }
