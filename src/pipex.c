@@ -6,17 +6,13 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:38:49 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 17:39:24 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/27 18:51:29 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include "utils.h"
-#include "get_next_line.h"
-#include "ft_printf.h"
 #include "libft.h"
-#include <fcntl.h>
-#include <stdio.h>
 
 void	ft_create_pipes(int ***fd, int num_pipes)
 {

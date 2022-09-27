@@ -6,13 +6,12 @@
 /*   By: ogonzale <ogonzale@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:40:22 by ogonzale          #+#    #+#             */
-/*   Updated: 2022/09/27 17:40:30 by ogonzale         ###   ########.fr       */
+/*   Updated: 2022/09/27 18:53:23 by ogonzale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "libft.h"
-#include <stdlib.h>
 
 void	ft_alloc_fd(int ***fd, int num_pipes)
 {
